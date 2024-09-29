@@ -12,7 +12,7 @@ public enum ContractStatusType
 
 public static class ExtensionContractStatusType
 {
-    public static string ToString(this ContractStatusType contractStatusType)
+    public static string ToString(ContractStatusType contractStatusType)
     {
         return contractStatusType switch
         {

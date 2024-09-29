@@ -10,7 +10,7 @@ public enum FaceType
 
 public static class ExtensionFaceType
 {
-    public static string ToString(this FaceType faceType)
+    public static string ToString(FaceType faceType)
     {
         return faceType switch
         {

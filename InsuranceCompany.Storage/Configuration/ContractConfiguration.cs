@@ -18,7 +18,7 @@ public class ContractConfiguration : IEntityTypeConfiguration<ContractEntity>
 
         builder.Property(c => c.Status)
             .HasConversion(
-                c => c.ToString(),
+                c => ExtensionContractStatusType.ToString(c),
                 c => ExtensionContractStatusType.ParseString(c))
             .HasMaxLength(25);
 

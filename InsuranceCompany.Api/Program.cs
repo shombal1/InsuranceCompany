@@ -1,8 +1,6 @@
-
+using System.Reflection;
+using InsuranceCompany.Domain.DependencyInjection;
 using InsuranceCompany.Storage.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddInsuranceCompanyStorage(configuration.GetConnectionString("Postgres")!);
+builder.Services
+    .AddInsuranceCompanyStorage(configuration.GetConnectionString("Postgres")! )
+    .AddInsuranceCompanyDomain();
+
+builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 
@@ -30,3 +32,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace InsuranceCompany.Api
+{
+    public partial class Program{}
+}

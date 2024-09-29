@@ -21,17 +21,18 @@
     
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <ProjectReference Include="..\InsuranceCompany.Domain.DependencyInjection\InsuranceCompany.Domain.DependencyInjection.csproj" />
+      <ProjectReference Include="..\InsuranceCompany.Storage.DependencyInjection\InsuranceCompany.Storage.DependencyInjection.csproj" />
     </ItemGroup>
     
 
     <ItemGroup>
-      <ProjectReference Include="..\InsuranceCompany.Storage\InsuranceCompany.Storage.csproj" />
-    </ItemGroup>
-    
-
-    <ItemGroup>
-      <ProjectReference Include="..\InsuranceCompany.Storage\InsuranceCompany.Storage.csproj" />
+      <Content Include="..\.gitignore">
+        <Link>.gitignore</Link>
+      </Content>
+      <Content Include="..\README.md">
+        <Link>README.md</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
