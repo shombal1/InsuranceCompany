@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("InsuranceCompanyWebContextConnection") ?? throw new InvalidOperationException("Connection string 'InsuranceCompanyWebContextConnection' not found.");
-
 var configuration = builder.Configuration;
 
 // Add services to the container.
