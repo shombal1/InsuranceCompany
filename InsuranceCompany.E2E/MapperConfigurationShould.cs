@@ -1,6 +1,6 @@
 using AutoMapper;
 using FluentAssertions;
-using InsuranceCompany.Api;
+using InsuranceCompany.Web;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 

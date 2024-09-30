@@ -2,6 +2,7 @@
 using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateProduct;
 using InsuranceCompany.Storage.Storages;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,12 @@ public static class ServiceCollectionExtension
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });
+
+        services.AddDbContextPool<AuthenticationDbContext>(
+            options => { options.UseNpgsql(dbConnectionStringPostgres); });
+
+        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<AuthenticationDbContext>();
 
         services.AddAutoMapper(config => 
             config.AddMaps(Assembly.GetAssembly(typeof(InsuranceCompanyDbContext))));
