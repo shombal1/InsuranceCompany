@@ -2,6 +2,7 @@
 using AutoMapper;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
+using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Web.Models;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
@@ -33,11 +34,12 @@ public class ProductController(IMediator mediator, IMapper mapper,ILogger<HomeCo
         });
     }
 
-    [HttpPost]
-    [Route("save")]
-    public IActionResult Save([FromBody] SaveProductDto saveProductDto) // url: POST /product/save
-    {
-        // логика на основани data. Создание модели Product и всех связий
+    [HttpGet]
+    [Route("kl")]
+    public IActionResult Save() // url: POST /product/save
+     {
+        mediator.Send(new SaveProductCommand("test", "D", 3,
+            [new InputBoxCommand(), new ItemComboBoxCommand(){Description = ""}], [new ProductRiskCommand()], ""));
 
         return Ok("success");
     }

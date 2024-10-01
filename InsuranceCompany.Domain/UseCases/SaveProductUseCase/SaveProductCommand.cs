@@ -1,4 +1,6 @@
-﻿namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
+﻿using MediatR;
+
+namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
 public record SaveProductCommand(
     string Name,
@@ -7,4 +9,4 @@ public record SaveProductCommand(
     List<ItemBaseCommand> Items,      
     List<ProductRiskCommand> Risks,    
     string Formula
-);
+) : IRequest<Unit>;
