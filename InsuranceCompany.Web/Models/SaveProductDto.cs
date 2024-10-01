@@ -1,6 +1,6 @@
 ﻿namespace InsuranceCompany.Web.Models;
 
-public class CreateProductDto
+public class SaveProductDto
 {
     public string Nmae { get; set; }
     public string Description { get; set; }

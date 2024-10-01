@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using InsuranceCompany.Web.Models;
 using InsuranceCompany.Domain.Models;
+using InsuranceCompany.Web.Models;
 
-namespace InsuranceCompany.Api.Mapping;
+namespace InsuranceCompany.Web.Mapping;
 
 public class ProductProfile : Profile
 {
