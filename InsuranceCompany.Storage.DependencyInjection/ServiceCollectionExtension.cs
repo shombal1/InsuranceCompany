@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using InsuranceCompany.Domain.UseCases;
+using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Storage.Storages;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +14,8 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddInsuranceCompanyStorage(this IServiceCollection services,string dbConnectionStringPostgres)
     {
         services
-            .AddScoped<IGetProductsStorage, GetProductsStorage>();
+            .AddScoped<IGetProductsStorage, GetProductsStorage>()
+            .AddScoped<IGetLobsStorage,GetLobsStorage>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });
