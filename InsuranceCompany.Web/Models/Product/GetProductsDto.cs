@@ -1,4 +1,4 @@
-﻿namespace InsuranceCompany.Web.Models;
+﻿namespace InsuranceCompany.Web.Models.Product;
 
 public class GetProductsDto
 {

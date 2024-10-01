@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InsuranceCompany.Storage.Configuration;
 
-public class RiskConfiguration : IEntityTypeConfiguration<RiskEntity>
+public class RiskConfiguration : IEntityTypeConfiguration<ProductRiskEntity>
 {
-    public void Configure(EntityTypeBuilder<RiskEntity> builder)
+    public void Configure(EntityTypeBuilder<ProductRiskEntity> builder)
     {
-        builder.ToTable("RISKS");
+        builder.ToTable("PRODUCT_RISKS");
         
         builder.HasKey(r => r.Id);
         builder.Property(r => r.Id)
@@ -16,8 +16,9 @@ public class RiskConfiguration : IEntityTypeConfiguration<RiskEntity>
             .ValueGeneratedOnAdd();
 
         builder.Property(r => r.Name).HasMaxLength(50);
-        
-        builder.HasMany(r => r.ContractRisks)
-            .WithOne(c => c.Risk);
+
+        builder.HasOne(r => r.Product)
+            .WithMany(p => p.ProductRisks)
+            .HasForeignKey(r => r.ProductId);
     }
 }

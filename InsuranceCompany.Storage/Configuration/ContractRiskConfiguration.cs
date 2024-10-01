@@ -18,9 +18,5 @@ public class ContractRiskConfiguration : IEntityTypeConfiguration<ContractRiskEn
         builder.HasOne(c => c.Contract)
             .WithMany(c => c.ContractRisks)
             .HasForeignKey(c => c.ContractId);
-
-        builder.HasOne(c => c.Risk)
-            .WithMany(r => r.ContractRisks)
-            .HasForeignKey(c => c.RiskId);
     }
 }

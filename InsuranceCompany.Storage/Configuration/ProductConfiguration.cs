@@ -26,5 +26,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
 
         builder.HasMany(p => p.ProductMetafield)
             .WithOne(p => p.Product);
+
+        builder.HasMany(p => p.ProductRisks)
+            .WithOne(r => r.Product);
     }
 }

@@ -1,0 +1,30 @@
+﻿@model InsuranceCompany.Web.Models.Product.GetProductsDto
+
+<h2>Product List</h2>
+
+@if (Model.Products.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>NameLob</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.NameLob</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No products available</p>
+}

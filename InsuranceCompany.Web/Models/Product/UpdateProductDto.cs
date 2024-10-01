@@ -1,6 +1,6 @@
-﻿namespace InsuranceCompany.Web.Models;
+﻿namespace InsuranceCompany.Web.Models.Product;
 
-public class SaveProductDto
+public class UpdateProductDto
 {
     public string Nmae { get; set; }
     public string Description { get; set; }
