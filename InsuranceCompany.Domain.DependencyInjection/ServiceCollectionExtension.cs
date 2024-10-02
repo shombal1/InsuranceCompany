@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Reflection;
+using FluentValidation;
 using InsuranceCompany.Domain.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,10 @@ public static class ServiceCollectionExtension
         services
             .AddMediatR(cfg => cfg
                 .RegisterServicesFromAssemblyContaining<IUnitOfWork>());
+        
+        services.AddAutoMapper(config => 
+            config.AddMaps(Assembly.GetAssembly(typeof(IUnitOfWork))));
+
         
         services.AddValidatorsFromAssemblyContaining<IUnitOfWork>(includeInternalTypes: true);
         

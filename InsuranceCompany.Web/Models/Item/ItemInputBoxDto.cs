@@ -1,4 +1,4 @@
-﻿namespace InsuranceCompany.Web.Models.Product;
+﻿namespace InsuranceCompany.Web.Models.Item;
 
 public class ItemInputBoxDto : ItemBaseDto
 {

@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
-public class InputBoxCommandValidator : AbstractValidator<InputBoxCommand>
+public class ProductRiskCommandValidator : AbstractValidator<ProductRiskCommand>
 {
     
 }

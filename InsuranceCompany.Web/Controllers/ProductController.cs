@@ -4,6 +4,7 @@ using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Web.Models;
+using InsuranceCompany.Web.Models.Item;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,8 @@ namespace InsuranceCompany.Web.Controllers;
 
 [Controller]
 [Route("[controller]")]
-public class ProductController(IMediator mediator, IMapper mapper,ILogger<HomeController> logger) : Controller
+public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeController> logger) : Controller
 {
-
     [HttpGet]
     [Route("index")]
     public async Task<IActionResult> Index() // url: GET /product/
@@ -26,6 +26,9 @@ public class ProductController(IMediator mediator, IMapper mapper,ILogger<HomeCo
         });
     }
 
+
+    [HttpGet]
+    [Route("create")]
     public async Task<IActionResult> Create() // url: GET /product/create
     {
         return View(new CreateProductDto()
@@ -34,27 +37,29 @@ public class ProductController(IMediator mediator, IMapper mapper,ILogger<HomeCo
         });
     }
 
-    [HttpGet]
-    [Route("kl")]
-    public IActionResult Save() // url: POST /product/save
-     {
-        mediator.Send(new SaveProductCommand("test", "D", 3,
-            [new InputBoxCommand(), new ItemComboBoxCommand(){Description = ""}], [new ProductRiskCommand()], ""));
-
+    [HttpPost]
+    [Route("save")]
+    public IActionResult Save([FromBody] SaveProductDto saveProductDto) // url: POST /product/save
+    {
+        logger.LogInformation(JsonSerializer.Serialize(saveProductDto));
+        var command = mapper.Map<SaveProductCommand>(saveProductDto);
+        logger.LogInformation(JsonSerializer.Serialize(command));
+        mediator.Send(command);
+        
         return Ok("success");
     }
 
-    public IActionResult Edit(int id) // url: GET /product/edit/{id}
-    {
-        // логика получения конкретного продукта и всех его связей
-
-        return View(new GetProductDto());
-    }
-
-    [HttpPut]
-    public IActionResult Update(int id, [FromBody] UpdateProductDto updateProductDto) // url: POST /product/update/{id}
-    {
-        // логика получения конкретного продукта и его одновления
-        return Ok("success");
-    }
+    // public IActionResult Edit(int id) // url: GET /product/edit/{id}
+    // {
+    //     // логика получения конкретного продукта и всех его связей
+    //
+    //     return View(new GetProductDto());
+    // }
+    //
+    // [HttpPut]
+    // public IActionResult Update(int id, [FromBody] UpdateProductDto updateProductDto) // url: POST /product/update/{id}
+    // {
+    //     // логика получения конкретного продукта и его одновления
+    //     return Ok("success");
+    // }
 }
