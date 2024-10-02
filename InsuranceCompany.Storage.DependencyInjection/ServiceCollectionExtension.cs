@@ -1,8 +1,10 @@
 ﻿using System.Reflection;
 using InsuranceCompany.Domain.UseCases;
+using InsuranceCompany.Domain.UseCases.CreateContractUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Storage.Storages;
+using InsuranceCompany.Storage.Storages.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,8 @@ public static class ServiceCollectionExtension
     {
         services
             .AddScoped<IGetProductsStorage, GetProductsStorage>()
-            .AddScoped<IGetLobsStorage,GetLobsStorage>();
+            .AddScoped<IGetLobsStorage,GetLobsStorage>()
+            .AddScoped<ICreateContractStorage, CreateContractStorage>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });
