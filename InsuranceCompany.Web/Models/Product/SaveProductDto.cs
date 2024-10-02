@@ -1,8 +1,10 @@
-﻿namespace InsuranceCompany.Web.Models.Product;
+﻿using InsuranceCompany.Web.Models.Item;
+
+namespace InsuranceCompany.Web.Models.Product;
 
 public class SaveProductDto
 {
-    public string Nmae { get; set; }
+    public string Name { get; set; }
     public string Description { get; set; }
     public int LodId { get; set; }
     

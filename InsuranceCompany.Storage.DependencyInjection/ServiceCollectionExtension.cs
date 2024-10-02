@@ -3,6 +3,7 @@ using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateContractUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
+using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
 using InsuranceCompany.Storage.Storages.Contracts;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +18,10 @@ public static class ServiceCollectionExtension
     {
         services
             .AddScoped<IGetProductsStorage, GetProductsStorage>()
+            .AddScoped<IGetLobsStorage,GetLobsStorage>()
+            .AddScoped<ICreateItemStorage,CreateItemStorage>()
+            .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
+            .AddScoped<ICreateProductStorage,CreateProductStorage>();
             .AddScoped<IGetLobsStorage,GetLobsStorage>()
             .AddScoped<ICreateContractStorage, CreateContractStorage>();
         

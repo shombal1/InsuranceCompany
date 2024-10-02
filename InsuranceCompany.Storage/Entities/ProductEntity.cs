@@ -7,6 +7,7 @@ public class ProductEntity
     public string Description { get; set; }
     
     public int LOBId { get; set; }
+    public string Formula { get; set; } = "";
     public LOBEntity LOB { get; set; } = null!;
 
     public ICollection<ProductMetafieldEntity> ProductMetafield { get; set; } = null!;

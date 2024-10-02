@@ -1,6 +1,8 @@
-﻿namespace InsuranceCompany.Web.Models.Product;
+﻿
 
-public class ItemComboBoxDto : ItemBaseDto
+namespace InsuranceCompany.Domain.Models.Items;
+
+public class ItemComboBox : ItemBase
 {
     public override ItemType Type { get; set; } = ItemType.ComboBox;
     

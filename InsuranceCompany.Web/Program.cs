@@ -2,6 +2,7 @@ using InsuranceCompany.Domain.DependencyInjection;
 using InsuranceCompany.Storage.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using InsuranceCompany.Web.Models.Item;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -14,7 +15,11 @@ builder.Services
     .AddInsuranceCompanyStorage(configuration.GetConnectionString("Postgres")!)
     .AddInsuranceCompanyDomain();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new ItemBaseDtoConverter());
+    });
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(config => config.AddMaps(Assembly.GetExecutingAssembly()));
