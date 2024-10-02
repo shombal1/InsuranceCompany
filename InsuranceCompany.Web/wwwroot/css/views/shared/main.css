@@ -1,0 +1,70 @@
+.fixed-container {
+    margin-left: 69px;
+    margin-right: 69px;
+}
+
+.button-black {
+    padding: 13.5px 32px 13.5px 33px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter';
+}
+
+p, span, ul, li, a, input, button, label {
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-style: normal;
+    text-decoration: none;
+    white-space: normal;
+    word-break: break-word;
+    font-family: 'Inter';
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Inter';
+    white-space: normal;
+    word-break: break-word;
+}
+
+.main__commencement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main__title {
+    color: #000;
+    font-size: calc(40px + (24 * (100vw - 768px) / 1152));
+    font-weight: 700;
+}
+
+.main__commencement--button {
+    padding: 21.5px 42px 20.5px 42px;
+    flex-shrink: 0;
+    max-height: 63px;
+    max-width: 152px;
+}
+
+.main__commencement--under-line {
+    height: 1px;
+    background: #E6E6E6;
+    margin-top: 16px;
+    width: 95%;
+    margin-bottom: 39px;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-size: normal;
+}
+
+@font-face {
+    font-family: 'Newsreader';
+    src: url('/fonts/Newsreader.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
+
