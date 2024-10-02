@@ -16,7 +16,6 @@ namespace InsuranceCompany.Web.Controllers;
 public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeController> logger) : Controller
 {
     [HttpGet]
-    [Route("index")]
     public async Task<IActionResult> Index() // url: GET /product/
     {
         // логика получения всех продуктов и передача данных в View
