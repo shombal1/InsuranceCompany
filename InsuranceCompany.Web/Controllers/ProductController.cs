@@ -39,7 +39,7 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     {
         return View(new CreateProductDto()
         {
-            LOBsDto = (await mediator.Send(new CreateProductQuery())).Select(mapper.Map<LOBDto>).ToList()
+            LobsDto = (await mediator.Send(new CreateProductQuery())).Select(mapper.Map<LOBDto>).ToList()
         });
     }
 
