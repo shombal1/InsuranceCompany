@@ -5,6 +5,15 @@
     margin-bottom: 33px;
 }
 
+.header__logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-small {
+    display: none;
+}
+
 .header__nav {
     display: flex;
     align-items: center;
@@ -43,7 +52,17 @@
     margin-right: 70px;
 }
 
-@media (max-width: 1134px) {
+@media (max-width: 1599px){
+    .logo-big {
+        display: none;
+    }
+
+    .logo-small {
+        display: block;
+    }
+}
+
+@media (max-width: 1263px) {
     
     .header__nav {
         position: relative;
@@ -97,8 +116,6 @@
     }
     
 }
-
-
 
 @media (max-width: 500px) {
     .menu-toggle {
