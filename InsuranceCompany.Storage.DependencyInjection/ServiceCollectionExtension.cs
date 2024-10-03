@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
@@ -19,7 +20,8 @@ public static class ServiceCollectionExtension
             .AddScoped<IGetLobsStorage,GetLobsStorage>()
             .AddScoped<ICreateItemStorage,CreateItemStorage>()
             .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
-            .AddScoped<ICreateProductStorage,CreateProductStorage>();
+            .AddScoped<ICreateProductStorage,CreateProductStorage>()
+            .AddScoped<IGetFullProduct,GetFullProduct>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });

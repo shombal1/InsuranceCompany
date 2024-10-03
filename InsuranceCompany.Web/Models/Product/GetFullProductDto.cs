@@ -2,10 +2,11 @@
 
 namespace InsuranceCompany.Web.Models.Product;
 
-public class UpdateProductDto
+public class GetFullProductDto
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public string NameLOB { get; set; }
     public int LOBId { get; set; }
     
     public List<ItemBaseDto> Items { get; set; }

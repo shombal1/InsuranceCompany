@@ -8,6 +8,6 @@ public class LobProfile : Profile
 {
     public LobProfile()
     {
-        CreateMap<Lob, LobDto>();   
+        CreateMap<LOB, LOBDto>();   
     }
 }

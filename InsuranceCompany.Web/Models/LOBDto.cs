@@ -1,6 +1,6 @@
-﻿namespace InsuranceCompany.Domain.Models;
+﻿namespace InsuranceCompany.Web.Models;
 
-public class Lob
+public class LOBDto
 {
     public int Id { get; set; }
     public string Name { get; set; }

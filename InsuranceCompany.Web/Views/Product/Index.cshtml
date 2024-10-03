@@ -1,35 +1,30 @@
 ﻿@model InsuranceCompany.Web.Models.Product.GetProductsDto
-@{
-    ViewData["Title"] = "Страховой продукт-управление";
-}
-@section Styles {
-    <link rel="stylesheet" href="~/css/views/product/product.css" asp-append-version="true" />
-}
-@section Scripts {
-    <script src="~/js/views/product/CardButtons.js"></script>
-}
 
-<div class="main__inner">
-    <div class="main__commencement">
-        <h2 class="main__title">@ViewData["Title"]</h2>
-        <button class="main__commencement--button button-black" type="button">Создать</button>
-    </div>
-    <div class="main__commencement--under-line"></div>
-</div>
-        
-<div class="product-cards">
-    <div class="product-cards__inner">
-        @if (Model.Products.Any()) {
-            @foreach (var product in Model.Products) {
-                <div class="card">
-                    <h3 class="card__title">@product.Name</h3>
-                    <p class="card__descr">@product.Description</p>
-                    <button class="card__button button-redirection" type="button" data-id="@product.Id">Перейти</button>
-                    <button class="card__button button-copy" type="button" data-id="@product.Id">Создать новое копированием</button>
-                </div>
-            }
-        } else {
-            <p>Пожалуйста создайте свой первый страховой продукт 😁</p>
+<h2>Product List</h2>
+
+@if (Model.Products.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>NameLob</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Description</td>
+                <td>@product.NameLOB</td>
+            </tr>
         }
-    </div>
-</div>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No products available</p>
+}

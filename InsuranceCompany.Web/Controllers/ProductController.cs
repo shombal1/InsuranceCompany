@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using AutoMapper;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Web.Models;
@@ -21,39 +22,52 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         // логика получения всех продуктов и передача данных в View
         return View(new GetProductsDto()
         {
-            Products = (await mediator.Send(new GetProductsQuery())).Select(mapper.Map<ProductDto>).ToList()
+            Products = (await mediator.Send(new GetProductsQuery())).Select(mapper.Map<GetProductDto>).ToList()
         });
     }
 
-
+    // [HttpGet]
+    // [Route("buy")]
+    // public async Task<IActionResult> GetActiveProduct()
+    // {
+    //     
+    // }
+    
     [HttpGet]
     [Route("create")]
     public async Task<IActionResult> Create() // url: GET /product/create
     {
         return View(new CreateProductDto()
         {
-            LobsDto = (await mediator.Send(new CreateProductQuery())).Select(mapper.Map<LobDto>).ToList()
+            LOBsDto = (await mediator.Send(new CreateProductQuery())).Select(mapper.Map<LOBDto>).ToList()
         });
     }
 
     [HttpPost]
     [Route("save")]
-    public IActionResult Save([FromBody] SaveProductDto saveProductDto) // url: POST /product/save
+    public async Task<IActionResult> Save([FromBody] SaveProductDto saveProductDto) // url: POST /product/save
     {
-        logger.LogInformation(JsonSerializer.Serialize(saveProductDto));
-        var command = mapper.Map<SaveProductCommand>(saveProductDto);
-        logger.LogInformation(JsonSerializer.Serialize(command));
-        mediator.Send(command);
+        try
+        {
+            var command = mapper.Map<SaveProductCommand>(saveProductDto);
+            await mediator.Send(command);
+            return Ok("success");
+        }
+        catch (Exception e)
+        {
+            return Ok(e.Message);
+        }
         
-        return Ok("success");
     }
 
-    // public IActionResult Edit(int id) // url: GET /product/edit/{id}
-    // {
-    //     // логика получения конкретного продукта и всех его связей
-    //
-    //     return View(new GetProductDto());
-    // }
+    [HttpGet]
+    [Route("edit")]
+    public async Task<IActionResult> Edit(int productId) // url: GET /product/edit/{id}
+    {
+        // логика получения конкретного продукта и всех его связей
+
+        return View(mapper.Map<GetFullProductDto>(await mediator.Send(new GetFullProductQuery(productId))));
+    }
     //
     // [HttpPut]
     // public IActionResult Update(int id, [FromBody] UpdateProductDto updateProductDto) // url: POST /product/update/{id}
