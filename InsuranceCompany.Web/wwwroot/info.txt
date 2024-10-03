@@ -8,3 +8,14 @@ INSERT INTO "PRODUCTS" ("Name", "LOBId", "Description")
 VALUES 
 ('ОСАГО', 1, 'Страхование автогражданской ответственности. Страховой полис ОСАГО покрывает ущерб, нанесенный третьим лицам до 500000 руб.'),
 ('Отпуск вашей мечты', 3, 'Гибкая система выбора нужных вам рисков и на требуемый срок');
+
+
+dotnet ef database update FixConversionEnumToString  -s InsuranceCompany.Web -p InsuranceCompany.Storage --context InsuranceCompanyDbContext
+dotnet ef database update -s InsuranceCompany.Web -p InsuranceCompany.Web --context ApplicationDbContext
+
+dotnet ef database update 0 -s InsuranceCompany.Web -p InsuranceCompany.Web --context ApplicationDbContext
+dotnet ef database update 0 -s InsuranceCompany.Web -p InsuranceCompany.Storage --context InsuranceCompanyDbContext
+dotnet ef database update -s InsuranceCompany.Web -p InsuranceCompany.Storage --context InsuranceCompanyDbContext
+dotnet ef database update -s InsuranceCompany.Web -p InsuranceCompany.Web --context ApplicationDbContext
+
+dotnet watch run

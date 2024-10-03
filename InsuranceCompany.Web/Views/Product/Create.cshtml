@@ -59,9 +59,9 @@
             </div>
         </div>
     
-        <div class="form__risks-container">
+        <div class="form__risks-container table-wrapper">
             <label class="form__label" for="risks-table">Риски</label>
-            <table class="form__risks-table">
+            <table class="create-table">
                 <thead>
                     <tr>
                         <th><label for="risk-key">KEY</label></th>
@@ -74,7 +74,7 @@
                 
                 <tbody id="risks-body">
                     <tr>
-                        <td><textarea class="form__table-input" name="risk-key"></textarea></td>
+                        <td><textarea class="form__table-input" name="risk-key">Р1</textarea></td>
                         <td><textarea class="form__table-input" name="risk-description"></textarea></td>
                         <td><input class="form__table-input" type="number" name="start-tarif"></td>
                         <td><input class="form__table-input" type="number" name="basic compensation"></td>
@@ -82,41 +82,56 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="form__add-row" id="add-row" type="button">Добавить строку</button>
+            <div class="buttons-under-table__container">
+                <button class="form__add-row" id="add-row" type="button">Добавить строку</button>
+                <button class="form__remove-row" id="remove-row" type="button">Удалить строку</button>
+            </div>
         </div>
-    
+
         <div class="form__metadata-container">
             <span class="form__metadata-span">Метаданные</span>
-            <button class="form__metadata-button" type="button">Добавить</button>
-            <div class="form__select-container">
-                <select class="form__select" id="business-line">
+            <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
+            <div class="form__metadata-table table-input"></div>
+            <div class="form__metadata-table table-select"></div>
+        </div>
+
+        <!-- Модальное окно -->
+        <div id="modal" class="modal">
+            <div class="modal__content">
+                <label for="metadata-type">Выберите тип метаданных</label>
+                <select class="form__select" id="metadata-type">
                     <option class="select__option" value="input">input</option>
                     <option class="select__option" value="select">select</option>
                 </select>
-                 <button class="form__select-icon" id="select-icon-button" type="button">
+                <button class="form__select-icon" id="select-icon-button" type="button">
                     <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
                         <ellipse cx="26.5" cy="14" rx="14.5" ry="14" fill="#D9D9D9" />
                         <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
                     </svg>
                 </button>
+                <button class="button-black button-add-metadata" type="button" id="chooseMetadataButton">Выбрать</button>
             </div>
         </div>
+
+        <!-- Затемняющий фон -->
+        <div id="overlay" class="overlay"></div>
+
     
         <div class="form__input-container">
             <label class="form__label" for="formula">Формула</label>
             <input class="form__input form__input--formula" type="text" name="formula" required>
         </div>
         
-        <div class="reward-container">
+        @* <div class="reward-container">
             <h2 class="reward__title">Вознаграждение</h2>
             <label class="reward__label" for="fixed-rew">Фиксированное</label>
             <input class="reward__radio-button" type="radio" name="reward-type" id="fixed-rew" value="fixed">
             <label class="reward__label" for="percentage-rew">Процентное</label>
             <input class="reward__radio-button" type="radio" name="reward-type" id="percentage-rew" value="percentage">
-        </div>
+        </div> *@
         
         <div class="button-submit-container">
-            <button class="button__submit button--submit" type="button">Отправить</button>
+            <button class="button__submit button--submit" type="sumbit">Создать</button>
             <button class="button__submit button-black button--cancel" type="button">Отмена</button>
         </div>
     </form>
