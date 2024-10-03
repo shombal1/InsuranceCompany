@@ -20,7 +20,7 @@ public class ProductProfile : Profile
 
         CreateMap<ProductEntity, FullProduct>()
             .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.LOB.Name))
-            .ForMember(d=>d.LOBID,s=>s.MapFrom(f=>f.LOBId))
+            .ForMember(d=>d.LOBId,s=>s.MapFrom(f=>f.LOBId))
             .ForMember(d => d.Risks, s => s.MapFrom(f => f.ProductRisks))
             .ForMember(d => d.Items, s => s.MapFrom(f => f.ProductMetafield));
 

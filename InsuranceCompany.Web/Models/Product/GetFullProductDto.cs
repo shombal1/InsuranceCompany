@@ -6,6 +6,7 @@ public class GetFullProductDto
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    public bool Active { get; set; }
     public string NameLOB { get; set; }
     public int LOBId { get; set; }
     

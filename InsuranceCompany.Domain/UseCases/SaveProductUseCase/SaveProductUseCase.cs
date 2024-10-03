@@ -22,7 +22,7 @@ public class SaveProductUseCase(
         var createProductRiskStorage = scope.GetStorage<ICreateProductRiskStorage>();
         var createItemStorage = scope.GetStorage<ICreateItemStorage>();
 
-        var product = await createProductStorage.Create(
+        var product = await createProductStorage.Create(request.Active,
             request.Name, request.Description, request.LOBId,request.Formula,cancellationToken);
 
         foreach (var risk in request.Risks)
