@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using AutoMapper;
+using InsuranceCompany.Domain.UseCases.CopyProductUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
@@ -44,20 +45,26 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     }
 
     [HttpPost]
+    [Route("copy")]
+    public async Task<IActionResult> Copy(int productId)
+    {
+        return Ok(await mediator.Send(new CopyProductCommand(productId)));
+    }
+
+    [HttpPost]
     [Route("save")]
     public async Task<IActionResult> Save([FromBody] SaveProductDto saveProductDto) // url: POST /product/save
     {
         try
         {
             var command = mapper.Map<SaveProductCommand>(saveProductDto);
-            await mediator.Send(command);
-            return Ok("success");
+            int id = await mediator.Send(command);
+            return Ok(id);
         }
         catch (Exception e)
         {
             return Ok(e.Message);
         }
-        
     }
 
     [HttpGet]

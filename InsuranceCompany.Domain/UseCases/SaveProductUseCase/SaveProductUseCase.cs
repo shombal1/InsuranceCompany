@@ -10,9 +10,9 @@ namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 public class SaveProductUseCase(
     IValidator<SaveProductCommand> validator,
     IUnitOfWork unitOfWork,
-    IMapper mapper) : IRequestHandler<SaveProductCommand,Unit>
+    IMapper mapper) : IRequestHandler<SaveProductCommand,int>
 { 
-    public async Task<Unit> Handle(SaveProductCommand request, CancellationToken cancellationToken)
+    public async Task<int> Handle(SaveProductCommand request, CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(request,cancellationToken);
 
@@ -38,6 +38,6 @@ public class SaveProductUseCase(
         
         await scope.Commit(cancellationToken);
         
-        return new Unit();
+        return product.Id;
     }
 }
