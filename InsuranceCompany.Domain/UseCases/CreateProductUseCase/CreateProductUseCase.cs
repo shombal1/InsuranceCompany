@@ -7,9 +7,9 @@ namespace InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 public class CreateProductUseCase(
     IValidator<CreateProductQuery> validator,
     IGetLobsStorage storage
-    ) : IRequestHandler<CreateProductQuery, IEnumerable<Lob>>
+    ) : IRequestHandler<CreateProductQuery, IEnumerable<LOB>>
 {
-    public async Task<IEnumerable<Lob>> Handle(CreateProductQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<LOB>> Handle(CreateProductQuery request, CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(request,cancellationToken);
 

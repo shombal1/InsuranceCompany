@@ -4,6 +4,6 @@ namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
 public class ItemComboBoxCommand : ItemBaseCommand
 {
-    //public override ItemType Type { get; set; } = ItemType.ComboBox;
+    public override ItemType Type { get; set; } = ItemType.ComboBox;
     public List<ComboBoxValue> Values { get; set; }
 }

@@ -4,5 +4,6 @@ namespace InsuranceCompany.Domain.UseCases.GetProducts;
 
 public interface IGetProductsStorage : IStorage
 {
+    public Task<Product> Get(int productId, CancellationToken cancellationToken);
     public Task<IEnumerable<Product>> Get(CancellationToken cancellationToken);
 }

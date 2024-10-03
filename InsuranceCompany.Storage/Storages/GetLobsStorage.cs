@@ -8,8 +8,8 @@ namespace InsuranceCompany.Storage.Storages;
 
 public class GetLobsStorage(InsuranceCompanyDbContext dbContext,IMapper mapper): IGetLobsStorage
 {
-    public async Task<IEnumerable<Lob>> Get(CancellationToken cancellationToken)
+    public async Task<IEnumerable<LOB>> Get(CancellationToken cancellationToken)
     {
-        return await dbContext.LOBs.ProjectTo<Lob>(mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
+        return await dbContext.LOBs.ProjectTo<LOB>(mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
     }
 }

@@ -15,5 +15,15 @@ public class ItemProfile : Profile
             .IncludeBase<ItemBaseDto, ItemBaseCommand>();
         CreateMap<ItemInputBoxDto, ItemInputBoxCommand>()
             .IncludeBase<ItemBaseDto, ItemBaseCommand>();
+
+
+        CreateMap<Domain.Models.Items.ComboBoxValue, Models.Item.ComboBoxValue>();
+        
+        CreateMap<ItemBase,ItemBaseDto>();
+        
+        CreateMap<ItemComboBox,ItemComboBoxDto>()
+            .IncludeBase<ItemBase,ItemBaseDto>();
+        CreateMap<ItemInputBox, ItemInputBoxDto>()
+            .IncludeBase<ItemBase, ItemBaseDto>();
     }
 }

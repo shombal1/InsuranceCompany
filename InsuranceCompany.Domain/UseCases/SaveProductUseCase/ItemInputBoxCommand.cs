@@ -4,5 +4,5 @@ namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
 public class ItemInputBoxCommand : ItemBaseCommand
 {
-    //public override ItemType Type { get; set; } = ItemType.InputBox;
+    public override ItemType Type { get; set; } = ItemType.InputBox;
 }
