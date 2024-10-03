@@ -5,35 +5,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Создать
-    const form = document.querySelector(".form--create-product");
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".form--create-product");
+        
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault(); // предотвращаем стандартное поведение отправки формы
     
-    form.addEventListener("submit", function (event) {
-        event.preventDefault(); // предотвращаем стандартное поведение отправки формы
-
-        // Собираем данные из формы
-        const formData = new FormData(form);
-
-        // Выполняем POST запрос
-        fetch('/api/products/create', { // Тут надо поменять урл
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети');
+            const formData = new FormData(form);
+            const saveProductDto = {
+                Name: formData.get('product-title'), // Получаем название
+                Description: formData.get('product-descr'), // Получаем описание
+                LOBId: parseInt(formData.get('business-line')), // Получаем ID линии бизнеса
+                Active: formData.get('status') === 'on', // Получаем статус (активный/неактивный)
+                Items: [], // Здесь мы будем собирать метаданные, если они есть
+                Risks: [], // Здесь мы будем собирать риски
+                Formula: formData.get('formula'), // Получаем формулу
+            };
+    
+            // Собираем риски из таблицы
+            const risksRows = document.querySelectorAll("#risks-body tr");
+            risksRows.forEach(row => {
+                const risk = {
+                    Key: row.querySelector("textarea[name='risk-key']").value,
+                    Description: row.querySelector("textarea[name='risk-description']").value,
+                    StartTarif: parseFloat(row.querySelector("input[name='start-tarif']").value), // преобразуем в число
+                    BasicCompensation: parseFloat(row.querySelector("input[name='basic compensation']").value), // преобразуем в число
+                    CanChange: row.querySelector("input[name='can-change']").checked // получаем состояние чекбокса
+                };
+                saveProductDto.Risks.push(risk);
+            });
+    
+            try {
+                const response = await fetch('/product/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Указываем тип содержимого
+                    },
+                    body: JSON.stringify(saveProductDto), // Сериализуем объект в JSON
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Ошибка при создании продукта: ' + response.statusText);
+                }
+    
+                const data = await response.json(); // Получаем ответ в формате JSON
+                console.log('Успешно создано:', data);
+                window.location.href = '/product/';
+            } catch (error) {
+                console.error('Ошибка:', error.message);
             }
-            return response.json();
-        })
-        .then(data => {
-            // Обработка успешного ответа
-            console.log('Успешно создано:', data);
-            window.location.href = '/product/'
-        })
-        .catch(error => {
-            // Обработка ошибок
-            console.error('Ошибка при создании продукта:', error);
         });
     });
+    
+    
+
     
     // Тумблер
     document.querySelector('.form__radio-container').addEventListener('click', function(event) {
@@ -126,10 +151,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let metadataCountIndexTable = 1;
+    let availableIndices = []; // Массив для хранения доступных индексов
+
+    function getNextAvailableIndex() {
+        // Если есть освобождённые индексы, используем их
+        if (availableIndices.length > 0) {
+            return availableIndices.shift(); // Забираем первый доступный индекс
+        }
+        // Если свободных индексов нет, возвращаем текущий и увеличиваем его
+        return metadataCountIndexTable++;
+    }
 
     function renderMetadataTable(selectValue) {
         const tableContainer = document.querySelector(selectValue === 'input' ? '.table-input' : '.table-select');
-        const tableId = metadataCountIndexTable; // Прямое использование метаданных
+        const tableId = getNextAvailableIndex(); // Получаем следующий доступный индекс
         const keyPrefix = selectValue === 'select' ? 'S' : 'I'; // Префикс для ключа
 
         const tableHTML = `
@@ -141,73 +176,73 @@ document.addEventListener('DOMContentLoaded', () => {
                             <th><label for="metadata-description">Описание</label></th>
                             ${selectValue === 'select' ? 
                                 `<th><label for="metadata-meaning">Значение</label></th>
-                                <th><label for="metadata-value">value</label></th>`
+                                <th><label for="metadata-value">value</label></th>` 
                             : ''}
                         </tr>
                     </thead>
-                    <tbody id="${tableId}-body" data-id="${metadataCountIndexTable}">
+                    <tbody id="${tableId}-body" data-id="${tableId}" data-key-prefix="${keyPrefix}">
                         <tr class="row-table-with-buttons">
                             <td><textarea class="form__table-input" name="metadata-key">M${tableId}${keyPrefix}</textarea></td>
                             <td><textarea class="form__table-input" name="metadata-description"></textarea></td>
                             ${selectValue === 'select' ? 
                                 `<td><input class="form__table-input" name="metadata-meaning"></td>
-                                <td><input class="form__table-input" name="metadata-value"></td>`
+                                <td><input class="form__table-input" name="metadata-value"></td>` 
                             : ''}
                         </tr>
                     </tbody>
                 </table>
                 <div class="buttons-under-table__container">
-                    <button class="form__add-row" type="button">Добавить строку</button>
-                    <button class="form__remove-row" type="button">Удалить строку</button>
+                    <button class="form__add-row" data-table-id="${tableId}" type="button">Добавить строку</button>
+                    <button class="form__remove-row" data-table-id="${tableId}" type="button">Удалить строку</button>
                 </div>
             </div>`;
 
         tableContainer.innerHTML += tableHTML;
         closeModal();
-        metadataCountIndexTable++; // Увеличиваем индекс для следующей таблицы
+    }
 
-        // Получаем кнопки добавления и удаления
-        const addRowButton = document.querySelector(`#metadata-table-${tableId} .form__add-row`);
-        const removeRowButton = document.querySelector(`#metadata-table-${tableId} .form__remove-row`);
-        
-        let rowCount = 1; // Изначально одна строка
-
-        // Добавление новой строки
-        addRowButton.addEventListener('click', () => {
+    // Делегирование событий для добавления и удаления строк
+    document.addEventListener('click', function (event) {
+        if (event.target.matches('.form__add-row')) {
+            // Добавление новой строки
+            const tableId = event.target.getAttribute('data-table-id');
             const tableBody = document.getElementById(`${tableId}-body`);
+            const keyPrefix = tableBody.getAttribute('data-key-prefix'); // Получаем префикс для ключа
+            const rowCount = tableBody.querySelectorAll('tr').length + 1; // Считаем количество строк
+
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
                 <td><textarea class="form__table-input" name="metadata-key">M${tableId}${keyPrefix}</textarea></td>
                 <td><textarea class="form__table-input" name="metadata-description"></textarea></td>
-                ${selectValue === 'select' ? 
+                ${keyPrefix === 'S' ? 
                     `<td><input class="form__table-input" name="metadata-meaning"></td>
-                    <td><input class="form__table-input" name="metadata-value"></td>`
+                    <td><input class="form__table-input" name="metadata-value"></td>` 
                 : ''}`;
             
             tableBody.appendChild(newRow);
-            rowCount++;
-        });
+        }
 
-        // Удаление последней строки или всей таблицы
-        removeRowButton.addEventListener('click', () => {
+        if (event.target.matches('.form__remove-row')) {
+            // Удаление последней строки или всей таблицы
+            const tableId = event.target.getAttribute('data-table-id');
             const tableBody = document.getElementById(`${tableId}-body`);
-            if (rowCount > 1) {
-                const lastRow = tableBody.querySelector('tr:last-child');
-                if (lastRow) {
-                    tableBody.removeChild(lastRow); // Удаляем последнюю строку
-                    rowCount--;
-                }
+            const rows = tableBody.querySelectorAll('tr');
+            
+            if (rows.length > 1) {
+                // Удаляем последнюю строку
+                tableBody.removeChild(rows[rows.length - 1]);
             } else {
+                // Удаляем всю таблицу
                 const tableWrapper = document.getElementById(`metadata-table-${tableId}`);
                 if (tableWrapper) {
-                    tableWrapper.remove(); // Удаляем всю таблицу
-                    metadataCountIndexTable--;
+                    tableWrapper.remove(); // Удаляем таблицу
+                    availableIndices.push(tableId); // Добавляем индекс в доступные
                 }
             }
-        });
-    }
+        }
+    });
 
-    // Обработчики событий
+    // Обработчики событий для открытия/закрытия модального окна
     document.querySelector('.form__metadata-button').addEventListener('click', openModal);
     document.querySelector('.overlay').addEventListener('click', closeModal);
     document.querySelector('.button-add-metadata').addEventListener('click', () => {
