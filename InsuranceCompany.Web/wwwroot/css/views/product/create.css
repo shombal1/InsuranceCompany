@@ -401,6 +401,11 @@ input:focus, textarea:focus {
     padding: 21.5px 51px 20.5px 51px;
 }
 
+.button--submit-draft {
+    background: #A7BB97;
+    padding: 10px 22px;
+}
+
 /* Стили для модального окна */
 .modal {
     display: none;
