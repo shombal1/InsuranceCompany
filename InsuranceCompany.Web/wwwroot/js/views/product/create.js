@@ -4,83 +4,92 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = `/product/`
     });
 
-    // Создать
-    const getLastId = async () => {
-        // Код для запроса к серверу
-    };
-
-    const form = document.querySelector(".form--create-product");
-
-    form.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        const lastId = await getLastId(); // Получаем последний ID
-        const formData = new FormData(form);
-        const saveProductDto = {
-            Id: lastId + 1, // Добавляем уникальный идентификатор
-            Name: formData.get('product-title'),
-            Description: formData.get('product-descr'),
-            LOBId: parseInt(formData.get('business-line')),
-            Active: formData.get('status') === 'on',
-            Items: [], // Здесь будут метаданные
+    const form = document.querySelector('.form--create-product');
+    const collectFormData = () => {
+        const formData = {
+            Name: form.querySelector('input[name="product-title"]').value,
+            Description: form.querySelector('textarea[name="product-descr"]').value,
+            LOBId: Number(form.querySelector('select[name="business-line"]').value),
+            Active: form.querySelector('input[name="status"]').checked,
             Risks: [],
-            Formula: formData.get('formula'),
-        };
-
-        // Собираем риски из таблицы
-        const risksRows = document.querySelectorAll("#risks-body tr");
-        risksRows.forEach(row => {
+            Items: [],
+            Formula: form.querySelector('input[name="formula"]').value
+        };    
+        // Собираем данные рисков
+        const risksBody = form.querySelector('#risks-body');
+        risksBody.querySelectorAll('tr').forEach(row => {
             const risk = {
-                Key: row.querySelector("textarea[name='risk-key']").value,
-                Description: row.querySelector("textarea[name='risk-description']").value,
-                StartTarif: parseFloat(row.querySelector("input[name='start-tarif']").value),
-                BasicCompensation: parseFloat(row.querySelector("input[name='basic compensation']").value),
-                CanChange: row.querySelector("input[name='can-change']").checked
+                Key: row.querySelector('textarea[name="risk-key"]').value,
+                Name: row.querySelector('textarea[name="risk-description"]').value,
+                Premium: Number(row.querySelector('input[name="start-tarif"]').value.replace(',', '.')),
+                InsuranceSum: Number(row.querySelector('input[name="basic compensation"]').value.replace(',', '.')),
+                Active: row.querySelector('input[name="can-change"]').checked
             };
-            saveProductDto.Risks.push(risk);
-        });
-
-        // Собираем метаданные из всех таблиц
-        const metadataTables = document.querySelectorAll('.table-wrapper');
+            formData.Risks.push(risk);
+        });    
+        // Собираем данные метаданных
+        const metadataTables = form.querySelectorAll('.form__metadata-tables .table-wrapper');
         metadataTables.forEach(table => {
-            const tableId = table.id.replace('metadata-table-', ''); // Извлекаем ID таблицы
-            const tableBody = table.querySelector('tbody');
-            const rows = tableBody.querySelectorAll('tr');
-            rows.forEach(row => {
-                const item = {
-                    Key: row.querySelector("textarea[name='metadata-key']").value,
-                    Description: row.querySelector("textarea[name='metadata-description']").value,
-                    Meaning: selectValue === 'select' ? row.querySelector("input[name='metadata-meaning']").value : null,
-                    Value: selectValue === 'select' ? row.querySelector("input[name='metadata-value']").value : null,
-                };
-                saveProductDto.Items.push(item);
-            });
-        });
+            const metadata = {};
+            if (table.classList.contains('table-wrapper-type-input')) {
+                metadata.type = 1;
+                metadata.Index = Number(table.getAttribute('data-id'));
+                metadata.Key = table.querySelector('textarea[name="metadata-key"]').value;
+                metadata.Description = table.querySelector('textarea[name="metadata-description"]').value;
+            } else if (table.classList.contains('table-wrapper-type-select')) {
+                metadata.type = 0;
+                metadata.Index = Number(table.getAttribute('data-id'));
+                metadata.Values = [];
+                table.querySelectorAll('tr').forEach((row, index) => {
+                    if (index) {
+                        if (index===1) {
+                            metadata.Key = row.querySelector('textarea[name="metadata-key"]').value;
+                            metadata.Description = row.querySelector('textarea[name="metadata-description"]').value;
+                        };
+                        const value = {
+                            Name: row.querySelector('input[name="metadata-meaning"]').value,
+                            Value: Number(row.querySelector('input[name="metadata-value"]').value.replace(',', '.'))
+                        };
+                        metadata.Values.push(value);
+                    };
+                });
+            };
+            formData.Items.push(metadata);
+        });    
+        return formData;
+    };
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+        const formData = collectFormData();
+        console.log(formData);
 
+        let url = '';
+        let method = '';
+        const path = window.location.pathname;
+        if (path.startsWith('/product/edit/')) {
+            const parts = path.split('/');
+            url = `/product/update/${parts[3]}`;
+            method = 'PUT';
+        } else {
+            url = `/product/save`;
+            method = 'POST';
+        };
         try {
-            const response = await fetch('/product/save', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(saveProductDto),
+                body: JSON.stringify(formData),
             });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error('Ошибка при создании продукта: ' + errorText);
-            }
-
-            const data = await response.json();
-            console.log('Успешно создано:', data);
-            window.location.href = '/product/';
+            if (response.ok) {
+                window.location.href = '/product';
+            };
+            console.log(response);
         } catch (error) {
-            console.error('Ошибка:', error.message);
+            console.log(error);
         }
     });
-
-    
-    
-
     
     // Тумблер
     document.querySelector('.form__radio-container').addEventListener('click', function(event) {
@@ -123,23 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const addButton = document.getElementById('add-row');
     const removeButton = document.getElementById('remove-row');
     const risksBody = document.getElementById('risks-body');
-    let riskKeyIndex = 1; // Начальное значение для идентификатора KEY (изменено на 1, так как первая строка будет Р1)
-
+    let riskKeyIndex = 0;
+    document.querySelectorAll('#risks-body textarea[name="risk-key"]').forEach(item => riskKeyIndex = Number(item.getAttribute('data-id')));
     // Функция для добавления новой строки
     addButton.addEventListener('click', () => {
         const newRow = document.createElement('tr');
 
+        riskKeyIndex++; // Увеличиваем индекс для следующей строки
         newRow.classList.add('risk-row');
         newRow.innerHTML = `
-            <td><textarea class="form__table-input" name="risk-key">Р${riskKeyIndex + 1}</textarea></td>
-            <td><textarea class="form__table-input" name="risk-description"></textarea></td>
-            <td><input class="form__table-input" type="number" name="start-tarif"></td>
+            <td><textarea class="form__table-input" name="risk-key" disabled data-id="${riskKeyIndex}">Р${riskKeyIndex}</textarea></td>
+            <td><textarea class="form__table-input" name="risk-description" required></textarea></td>
+            <td><input class="form__table-input" type="number" name="start-tarif" required></td>
             <td><input class="form__table-input" type="number" name="basic compensation"></td>
             <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input"></td>
         `;
-
         risksBody.appendChild(newRow); // Добавляем новую строку в тело таблицы
-        riskKeyIndex++; // Увеличиваем индекс для следующей строки
 
         // Обрабатываем textarea в новой строке для автоувеличения высоты
         newRow.querySelectorAll('.form__table-input').forEach(textarea => {
@@ -149,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-
     // Функция для удаления последней добавленной строки
     removeButton.addEventListener('click', () => {
         const lastRow = risksBody.querySelector('tr:last-child');
@@ -172,25 +179,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('overlay').style.display = 'none';
     };
 
-    let metadataCountIndexTable = 1;
+    let metadataCountIndexTable = 0;
     let availableIndices = []; // Массив для хранения доступных индексов
-
+    const formMetadataTables = document.querySelectorAll('.form__metadata-tables .table-wrapper');
+    if (formMetadataTables.length) {
+        const curentMetadataCountIndexTables = Array.from(formMetadataTables).map(item => Number(item.getAttribute('data-id')));
+        metadataCountIndexTable = Math.max(...curentMetadataCountIndexTables);
+        const allIndices = Array.from({ length: metadataCountIndexTable }, (_, i) => i + 1);
+        availableIndices = allIndices.filter(index => !curentMetadataCountIndexTables.includes(index));
+    };
     function getNextAvailableIndex() {
         // Если есть освобождённые индексы, используем их
         if (availableIndices.length > 0) {
             return availableIndices.shift(); // Забираем первый доступный индекс
-        }
-        // Если свободных индексов нет, возвращаем текущий и увеличиваем его
-        return metadataCountIndexTable++;
+        };
+        metadataCountIndexTable++;
+        return metadataCountIndexTable;
     }
 
+    const tableContainer = document.querySelector('.form__metadata-tables');
     function renderMetadataTable(selectValue) {
-        const tableContainer = document.querySelector(selectValue === 'input' ? '.table-input' : '.table-select');
         const tableId = getNextAvailableIndex(); // Получаем следующий доступный индекс
         const keyPrefix = selectValue === 'select' ? 'S' : 'I'; // Префикс для ключа
 
         const tableHTML = `
-            <div class="table-wrapper" id="metadata-table-${tableId}">
+            <div class="table-wrapper ${selectValue === 'select' ? 'table-wrapper-type-select' : 'table-wrapper-type-input'}" id="metadata-table-${tableId}" data-id="${tableId}">
                 <table class="create-table">
                     <thead>
                         <tr>
@@ -204,47 +217,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     </thead>
                     <tbody id="${tableId}-body" data-id="${tableId}" data-key-prefix="${keyPrefix}">
                         <tr class="row-table-with-buttons">
-                            <td><textarea class="form__table-input" name="metadata-key">M${tableId}${keyPrefix}</textarea></td>
-                            <td><textarea class="form__table-input" name="metadata-description"></textarea></td>
+                            <td><textarea class="form__table-input" name="metadata-key" disabled>M${tableId}${keyPrefix}</textarea></td>
+                            <td><textarea class="form__table-input" name="metadata-description" required></textarea></td>
                             ${selectValue === 'select' ? 
-                                `<td><input class="form__table-input" name="metadata-meaning"></td>
-                                <td><input class="form__table-input" name="metadata-value"></td>` 
+                                `<td><input class="form__table-input" name="metadata-meaning" required></td>
+                                <td><input class="form__table-input" name="metadata-value" required></td>` 
                             : ''}
                         </tr>
                     </tbody>
                 </table>
                 <div class="buttons-under-table__container">
-                    <button class="form__add-row" data-table-id="${tableId}" type="button">Добавить строку</button>
-                    <button class="form__remove-row" data-table-id="${tableId}" type="button">Удалить строку</button>
+                    ${selectValue === 'select' ? 
+                        `<button class="form__add-row" data-table-id="${tableId}" type="button">Добавить</button>` 
+                    : ''}
+                    <button class="form__remove-row" data-table-id="${tableId}" type="button">Удалить</button>
                 </div>
             </div>`;
 
-        tableContainer.innerHTML += tableHTML;
+        tableContainer.insertAdjacentHTML('beforeend', tableHTML);
         closeModal();
     }
 
     // Делегирование событий для добавления и удаления строк
-    document.addEventListener('click', function (event) {
-        if (event.target.matches('.form__add-row')) {
-            // Добавление новой строки
+    document.addEventListener('click', event => {
+        if (event.target.matches('.form__metadata-tables .table-wrapper-type-select .form__add-row')) {
+            // Добавление новой строки только в селект
             const tableId = event.target.getAttribute('data-table-id');
             const tableBody = document.getElementById(`${tableId}-body`);
-            const keyPrefix = tableBody.getAttribute('data-key-prefix'); // Получаем префикс для ключа
-            const rowCount = tableBody.querySelectorAll('tr').length + 1; // Считаем количество строк
 
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-                <td><textarea class="form__table-input" name="metadata-key">M${tableId}${keyPrefix}</textarea></td>
-                <td><textarea class="form__table-input" name="metadata-description"></textarea></td>
-                ${keyPrefix === 'S' ? 
-                    `<td><input class="form__table-input" name="metadata-meaning"></td>
-                    <td><input class="form__table-input" name="metadata-value"></td>` 
-                : ''}`;
-            
+                <td style="background: cornsilk;"><textarea class="form__table-input" name="metadata-key" disabled></textarea></td>
+                <td style="background: cornsilk;"><textarea class="form__table-input" name="metadata-description" disabled></textarea></td>
+                <td><input class="form__table-input" name="metadata-meaning"></td>
+                <td><input class="form__table-input" name="metadata-value"></td>`;
             tableBody.appendChild(newRow);
         }
 
-        if (event.target.matches('.form__remove-row')) {
+        if (event.target.matches('.form__metadata-tables .form__remove-row')) {
             // Удаление последней строки или всей таблицы
             const tableId = event.target.getAttribute('data-table-id');
             const tableBody = document.getElementById(`${tableId}-body`);
