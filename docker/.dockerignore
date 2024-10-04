@@ -1,0 +1,6 @@
+.idea/
+bin/
+obj/
+InsuranceCompany.E2E/
+docker-compose.yml
+Dockerfile
