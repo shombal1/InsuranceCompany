@@ -15,13 +15,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace InsuranceCompany.Web.Controllers;
 
 [Controller]
-[Route("[controller]")]
+[Route("product")]
 public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeController> logger) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index() // url: GET /product/
     {
-        // логика получения всех продуктов и передача данных в View
         return View(new GetProductsDto()
         {
             Products = (await mediator.Send(new GetProductsQuery()))
@@ -30,18 +29,6 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         });
     }
 
-    [HttpGet]
-    [Route("buy")]
-    public async Task<IActionResult> GetActiveProducts()
-    {
-        return Ok(new GetActiveProductsDto()
-        {
-            Products = (await mediator.Send(new GetActiveProductsQuery()))
-                .Select(mapper.Map<GetActiveProductDto>)
-                .ToList()
-        });
-    }
-    
     [HttpGet]
     [Route("create")]
     public async Task<IActionResult> Create() // url: GET /product/create
@@ -81,8 +68,6 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     [Route("edit/{productId}")]
     public async Task<IActionResult> Edit(int productId) // url: GET /product/edit/{id}
     {
-        // логика получения конкретного продукта и всех его связей
-
         return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
     }
     //
