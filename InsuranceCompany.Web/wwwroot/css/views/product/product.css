@@ -58,11 +58,11 @@ button {
     margin: 10px 0 31px;
 }
 
+
 @media (max-width: 1480px) {
     .product-cards__inner {
         gap: 60px;
-    }
-    
+    }    
 }
 
 @media (max-width: 1305px) {
