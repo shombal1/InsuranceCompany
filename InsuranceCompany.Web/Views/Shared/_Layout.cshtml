@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/views/shared/reset.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/shared/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/shared/header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/shared/footer.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
     
 </head>
@@ -43,6 +44,12 @@
             @RenderBody()
         </div>
     </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <h2 class="footer__title">РАЗРАБОТАНО КОМАНДОЙ ЛИДЕРЫ ДЛЯ КОМПАНИИ СОГЛАСИЕ</h2>
+        </div>
+    </footer>
 
     <script src="~/js/views/shared/header.js"></script>
     @RenderSection("Scripts", required: false)
