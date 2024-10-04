@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
 
-public class GetActiveProductsQueryValidator : AbstractValidator<GetActiveProductsQuery>
+internal class GetActiveProductsQueryValidator : AbstractValidator<GetActiveProductsQuery>
 {
     
 }

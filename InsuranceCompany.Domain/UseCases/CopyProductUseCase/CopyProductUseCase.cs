@@ -5,7 +5,7 @@ using MediatR;
 
 namespace InsuranceCompany.Domain.UseCases.CopyProductUseCase;
 
-public class CopyProductUseCase(IUnitOfWork unitOfWork) : IRequestHandler<CopyProductCommand, int>
+internal class CopyProductUseCase(IUnitOfWork unitOfWork) : IRequestHandler<CopyProductCommand, int>
 {
     public async Task<int> Handle(CopyProductCommand request, CancellationToken cancellationToken)
     {

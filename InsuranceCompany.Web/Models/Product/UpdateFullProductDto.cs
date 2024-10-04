@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Web.Models.Product;
 
-public class UpdateProductDto
+public class UpdateFullProductDto
 {
     public string Name { get; set; }
     public string Description { get; set; }

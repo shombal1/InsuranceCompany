@@ -4,7 +4,7 @@ using MediatR;
 
 namespace InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 
-public class CreateProductUseCase(
+internal class CreateProductUseCase(
     IValidator<CreateProductQuery> validator,
     IGetLobsStorage storage
     ) : IRequestHandler<CreateProductQuery, IEnumerable<LOB>>

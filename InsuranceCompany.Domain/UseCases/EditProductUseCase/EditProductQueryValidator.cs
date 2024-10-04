@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.EditProductUseCase;
 
-public class EditProductQueryValidator : AbstractValidator<EditProductQuery>
+internal class EditProductQueryValidator : AbstractValidator<EditProductQuery>
 {
     
 }

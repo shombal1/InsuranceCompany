@@ -6,6 +6,7 @@ using InsuranceCompany.Domain.UseCases.EditProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
 using InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
+using InsuranceCompany.Domain.UseCases.UpdateFullProductUseCase;
 using InsuranceCompany.Web.Models;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
@@ -72,7 +73,7 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         }
         catch (Exception e)
         {
-            return Ok(e.Message);
+            return Ok(e);
         }
     }
 
@@ -85,10 +86,13 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
     }
     //
-    // [HttpPut]
-    // public IActionResult Update(int id, [FromBody] UpdateProductDto updateProductDto) // url: POST /product/update/{id}
-    // {
-    //     // логика получения конкретного продукта и его одновления
-    //     return Ok("success");
-    // }
+    [HttpPut]
+    [Route("update/{productId}")]
+    public async Task<IActionResult> Update(int productId, [FromBody] UpdateFullProductDto updateFullProductDto) // url: POST /product/update/{id}
+    {
+        var command = mapper.Map<UpdateFullProductCommand>(updateFullProductDto);
+        command.ProductId = productId;
+        await mediator.Send(command);
+        return Ok("success");
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.CopyProductUseCase;
 
-public class CopyProductCommandValidator : AbstractValidator<CopyProductCommand>
+internal class CopyProductCommandValidator : AbstractValidator<CopyProductCommand>
 {
     
 }

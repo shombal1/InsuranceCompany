@@ -3,6 +3,7 @@ using InsuranceCompany.Domain.Models.Items;
 
 namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
-public class ItemComboBoxCommandValidator : AbstractValidator<ItemComboBoxCommand>
+internal class CreateItemInputBoxCommandValidator : AbstractValidator<CreateItemInputBoxCommand>
 {
+    
 }

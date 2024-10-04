@@ -4,7 +4,7 @@ using MediatR;
 
 namespace InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
 
-public class GetActiveProductsUseCase(IValidator<GetActiveProductsQuery> validator,IGetActiveProductsStorage storage) : IRequestHandler<GetActiveProductsQuery,IEnumerable<ActiveProduct>>
+internal class GetActiveProductsUseCase(IValidator<GetActiveProductsQuery> validator,IGetActiveProductsStorage storage) : IRequestHandler<GetActiveProductsQuery,IEnumerable<ActiveProduct>>
 {
     public async Task<IEnumerable<ActiveProduct>> Handle(GetActiveProductsQuery request, CancellationToken cancellationToken)
     {

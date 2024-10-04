@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
-public class SaveProductUseCase(
+internal class SaveProductUseCase(
     IValidator<SaveProductCommand> validator,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IRequestHandler<SaveProductCommand,int>
@@ -31,7 +31,7 @@ public class SaveProductUseCase(
                 cancellationToken);
         }
         
-        foreach (ItemBaseCommand item in request.Items)
+        foreach (CreateItemBaseCommand item in request.Items)
         {
             await createItemStorage.Create(product.Id,mapper.Map<ItemBase>(item) ,cancellationToken);
         }

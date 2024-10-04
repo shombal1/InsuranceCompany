@@ -10,6 +10,8 @@ public class GetLobsStorage(InsuranceCompanyDbContext dbContext,IMapper mapper):
 {
     public async Task<IEnumerable<LOB>> Get(CancellationToken cancellationToken)
     {
-        return await dbContext.LOBs.ProjectTo<LOB>(mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
+        return await dbContext.LOBs
+            .ProjectTo<LOB>(mapper.ConfigurationProvider)
+            .ToArrayAsync(cancellationToken);
     }
 }
