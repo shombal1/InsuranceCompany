@@ -1,21 +1,24 @@
-﻿using System.Reflection;
-using InsuranceCompany.Domain.UseCases;
+﻿using InsuranceCompany.Domain.UseCases;
+using InsuranceCompany.Domain.UseCases.CreateAgentUseCase;
 using InsuranceCompany.Domain.UseCases.CreateContractUseCase;
 using InsuranceCompany.Domain.UseCases.CreateFaceUseCase;
 using InsuranceCompany.Domain.UseCases.CreateIkpUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetAgentUseCase;
 using InsuranceCompany.Domain.UseCases.GetContractUseCase;
 using InsuranceCompany.Domain.UseCases.GetFaceUseCase;
 using InsuranceCompany.Domain.UseCases.GetIkpUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
+using InsuranceCompany.Storage.Storages.Agents;
 using InsuranceCompany.Storage.Storages.Contracts;
 using InsuranceCompany.Storage.Storages.Faces;
 using InsuranceCompany.Storage.Storages.Ikps;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace InsuranceCompany.Storage.DependencyInjection;
 
@@ -39,6 +42,9 @@ public static class ServiceCollectionExtension
 
             .AddScoped<ICreateIkpStorage, CreateIkpStorage>()
             .AddScoped<IGetIkpStorage, GetIkpStorage>()
+
+            .AddScoped<ICreateAgentStorage, CreateAgentStorage>()
+            .AddScoped<IGetAgentStorage, GetAgentStorage>()
             ;
 
         services.AddDbContextPool<InsuranceCompanyDbContext>(
