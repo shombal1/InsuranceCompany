@@ -11,7 +11,6 @@ using InsuranceCompany.Domain.UseCases.GetAgentUseCase;
 using InsuranceCompany.Domain.UseCases.GetContractUseCase;
 using InsuranceCompany.Domain.UseCases.GetFaceUseCase;
 using InsuranceCompany.Domain.UseCases.GetIkpUseCase;
-using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Domain.UseCases.UpdateFullProductUseCase;
 using InsuranceCompany.Storage.Storages;
