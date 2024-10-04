@@ -271,6 +271,9 @@ namespace InsuranceCompany.Storage.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");

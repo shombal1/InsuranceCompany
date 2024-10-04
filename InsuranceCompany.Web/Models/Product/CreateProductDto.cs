@@ -2,5 +2,5 @@
 
 public class CreateProductDto
 {
-    public List<LobDto> LobsDto { get; set; }
+    public List<LOBDto> LobsDto { get; set; }
 }

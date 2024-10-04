@@ -1,0 +1,39 @@
+﻿@using System.Text.Json
+@using InsuranceCompany.Web.Models.Item
+@model InsuranceCompany.Web.Models.Product.EditProductDto
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    @{
+        foreach (var item in Model.Items)
+        {
+            <div>
+                @switch (item)
+                {
+                    case ItemComboBoxDto comboBox:
+                        <select id="cities" name="cities">
+                            @foreach (var boxValue in comboBox.Values)
+                            {
+                                <option value=@boxValue.Value>@boxValue.Name</option>
+                            }
+                        </select>
+                        break;
+                    case ItemInputBoxDto inputBox:
+                        break;
+                }
+            </div>
+        }
+    }
+</div>
+</body>
+</html>

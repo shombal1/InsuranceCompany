@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InsuranceCompany.Domain.UseCases.GetProducts;
+namespace InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 
 internal class GetProductsQueryValidator : AbstractValidator<GetProductsQuery>
 {

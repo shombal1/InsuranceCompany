@@ -2,7 +2,7 @@
 using InsuranceCompany.Domain.Models;
 using MediatR;
 
-namespace InsuranceCompany.Domain.UseCases.GetProducts;
+namespace InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 
 internal class GetProductUseCase(
     IValidator<GetProductsQuery> validator,

@@ -7,7 +7,7 @@ namespace InsuranceCompany.Storage.Storages;
 
 public class CreateProductStorage(InsuranceCompanyDbContext dbContext,IMapper mapper) : ICreateProductStorage
 {
-    public async Task<Product> Create(string name, string description, int LOBId, string formula, CancellationToken cancellationToken)
+    public async Task<Product> Create(bool active,string name, string description, int LOBId, string formula, CancellationToken cancellationToken)
     {
         var product = (await dbContext.Products.AddAsync(new ProductEntity()
         {
@@ -15,6 +15,7 @@ public class CreateProductStorage(InsuranceCompanyDbContext dbContext,IMapper ma
             Formula = formula,
             Name = name,
             LOBId = LOBId,
+            Active = active
         },cancellationToken)).Entity;
 
         await dbContext.SaveChangesAsync(cancellationToken);

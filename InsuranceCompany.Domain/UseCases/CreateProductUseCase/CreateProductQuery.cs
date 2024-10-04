@@ -3,4 +3,4 @@ using MediatR;
 
 namespace InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 
-public record CreateProductQuery(): IRequest<IEnumerable<Lob>>;
+public record CreateProductQuery(): IRequest<IEnumerable<LOB>>;

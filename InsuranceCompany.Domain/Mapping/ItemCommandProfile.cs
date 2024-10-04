@@ -8,7 +8,8 @@ public class ItemCommandProfile : Profile
 {
     public ItemCommandProfile()
     {
-        CreateMap<ItemBaseCommand, ItemBase>();
+        CreateMap<ItemBaseCommand, ItemBase>()
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type));
         
         CreateMap<ItemComboBoxCommand, ItemComboBox>()
             .IncludeBase<ItemBaseCommand, ItemBase>();
