@@ -1,0 +1,8 @@
+@using InsuranceCompany.Web.Models.Item
+@model InsuranceCompany.Web.Models.Product.EditProductDto
+@{
+    ViewData["Title"] = "Продажа страхового продукта";
+}
+<pre>
+    @Html.Raw(Json.Serialize(Model))
+</pre>
