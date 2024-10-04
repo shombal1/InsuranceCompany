@@ -4,10 +4,18 @@ VALUES
 (2, 'Дом'),
 (3, 'Путешествие');
 
-INSERT INTO "PRODUCTS" ("Name", "LOBId", "Description")
-VALUES 
-('ОСАГО', 1, 'Страхование автогражданской ответственности. Страховой полис ОСАГО покрывает ущерб, нанесенный третьим лицам до 500000 руб.'),
-('Отпуск вашей мечты', 3, 'Гибкая система выбора нужных вам рисков и на требуемый срок');
+INSERT INTO "PRODUCTS" ("ID", "Name", "LOBId", "Description", "Formula", "Active") VALUES 
+(1, 'Отпуск вашей мечты', 3, 'Гибкая система выбора нужных вам рисков и на требуемый срок', '(Р1+Р2*M2S+Р3*M3S)*M1I', true);
+
+INSERT INTO "PRODUCT_RISKS" ("ID", "Name", "Premium", "InsuranceSum", "ProductId", "Active", "Key") VALUES 
+(1, 'Несчастный случай', 5000, 500000, 1, true, 'P1'), 
+(2, 'Утрата багажа', 1000, 10000, 1, false, 'P2'), 
+(3, 'Задержка рейса', 2000, 20000, 1, false, 'P3');
+
+INSERT INTO "PRODUCT_METAFIELDS" ("ID", "Type", "JsonData", "ProductId") VALUES 
+(1, 0, '{"Type":1,"Index":1,"Key":"M1I","Description":"Количество дней в путешествии"}', 1), 
+(2, 1, '{"Type":0,"Values":[{"Name":"высокий","Value":1.2},{"Name":"низкий","Value":0.9}],"Index":2,"Key":"M2S","Description":"Период отдыха"}', 1), 
+(3, 1, '{"Type":0,"Values":[{"Name":"Европа","Value":1},{"Name":"Турция","Value":1.2},{"Name":"ОАЭ","Value":1.1}],"Index":3,"Key":"M3S","Description":"Направление полета"}', 1);
 
 
 dotnet ef database update FixConversionEnumToString  -s InsuranceCompany.Web -p InsuranceCompany.Storage --context InsuranceCompanyDbContext

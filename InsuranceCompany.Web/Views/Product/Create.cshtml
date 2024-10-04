@@ -74,9 +74,9 @@
                 
                 <tbody id="risks-body">
                     <tr>
-                        <td><textarea class="form__table-input" name="risk-key">Р1</textarea></td>
-                        <td><textarea class="form__table-input" name="risk-description"></textarea></td>
-                        <td><input class="form__table-input" type="number" name="start-tarif"></td>
+                        <td><textarea class="form__table-input" name="risk-key" disabled data-id="1">Р1</textarea></td>
+                        <td><textarea class="form__table-input" name="risk-description" required></textarea></td>
+                        <td><input class="form__table-input" type="number" name="start-tarif" required></td>
                         <td><input class="form__table-input" type="number" name="basic compensation"></td>
                         <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input"></td>
                     </tr>
@@ -91,8 +91,7 @@
         <div class="form__metadata-container">
             <span class="form__metadata-span">Метаданные</span>
             <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
-            <div class="form__metadata-table table-input"></div>
-            <div class="form__metadata-table table-select"></div>
+            <div class="form__metadata-tables"></div>
         </div>
 
         <!-- Модальное окно -->
