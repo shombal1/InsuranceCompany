@@ -5,57 +5,79 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Создать
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector(".form--create-product");
-        
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault(); // предотвращаем стандартное поведение отправки формы
-    
-            const formData = new FormData(form);
-            const saveProductDto = {
-                Name: formData.get('product-title'), // Получаем название
-                Description: formData.get('product-descr'), // Получаем описание
-                LOBId: parseInt(formData.get('business-line')), // Получаем ID линии бизнеса
-                Active: formData.get('status') === 'on', // Получаем статус (активный/неактивный)
-                Items: [], // Здесь мы будем собирать метаданные, если они есть
-                Risks: [], // Здесь мы будем собирать риски
-                Formula: formData.get('formula'), // Получаем формулу
+    const getLastId = async () => {
+        // Код для запроса к серверу
+    };
+
+    const form = document.querySelector(".form--create-product");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const lastId = await getLastId(); // Получаем последний ID
+        const formData = new FormData(form);
+        const saveProductDto = {
+            Id: lastId + 1, // Добавляем уникальный идентификатор
+            Name: formData.get('product-title'),
+            Description: formData.get('product-descr'),
+            LOBId: parseInt(formData.get('business-line')),
+            Active: formData.get('status') === 'on',
+            Items: [], // Здесь будут метаданные
+            Risks: [],
+            Formula: formData.get('formula'),
+        };
+
+        // Собираем риски из таблицы
+        const risksRows = document.querySelectorAll("#risks-body tr");
+        risksRows.forEach(row => {
+            const risk = {
+                Key: row.querySelector("textarea[name='risk-key']").value,
+                Description: row.querySelector("textarea[name='risk-description']").value,
+                StartTarif: parseFloat(row.querySelector("input[name='start-tarif']").value),
+                BasicCompensation: parseFloat(row.querySelector("input[name='basic compensation']").value),
+                CanChange: row.querySelector("input[name='can-change']").checked
             };
-    
-            // Собираем риски из таблицы
-            const risksRows = document.querySelectorAll("#risks-body tr");
-            risksRows.forEach(row => {
-                const risk = {
-                    Key: row.querySelector("textarea[name='risk-key']").value,
-                    Description: row.querySelector("textarea[name='risk-description']").value,
-                    StartTarif: parseFloat(row.querySelector("input[name='start-tarif']").value), // преобразуем в число
-                    BasicCompensation: parseFloat(row.querySelector("input[name='basic compensation']").value), // преобразуем в число
-                    CanChange: row.querySelector("input[name='can-change']").checked // получаем состояние чекбокса
-                };
-                saveProductDto.Risks.push(risk);
-            });
-    
-            try {
-                const response = await fetch('/product/save', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Указываем тип содержимого
-                    },
-                    body: JSON.stringify(saveProductDto), // Сериализуем объект в JSON
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Ошибка при создании продукта: ' + response.statusText);
-                }
-    
-                const data = await response.json(); // Получаем ответ в формате JSON
-                console.log('Успешно создано:', data);
-                window.location.href = '/product/';
-            } catch (error) {
-                console.error('Ошибка:', error.message);
-            }
+            saveProductDto.Risks.push(risk);
         });
+
+        // Собираем метаданные из всех таблиц
+        const metadataTables = document.querySelectorAll('.table-wrapper');
+        metadataTables.forEach(table => {
+            const tableId = table.id.replace('metadata-table-', ''); // Извлекаем ID таблицы
+            const tableBody = table.querySelector('tbody');
+            const rows = tableBody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const item = {
+                    Key: row.querySelector("textarea[name='metadata-key']").value,
+                    Description: row.querySelector("textarea[name='metadata-description']").value,
+                    Meaning: selectValue === 'select' ? row.querySelector("input[name='metadata-meaning']").value : null,
+                    Value: selectValue === 'select' ? row.querySelector("input[name='metadata-value']").value : null,
+                };
+                saveProductDto.Items.push(item);
+            });
+        });
+
+        try {
+            const response = await fetch('/product/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(saveProductDto),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error('Ошибка при создании продукта: ' + errorText);
+            }
+
+            const data = await response.json();
+            console.log('Успешно создано:', data);
+            window.location.href = '/product/';
+        } catch (error) {
+            console.error('Ошибка:', error.message);
+        }
     });
+
     
     
 

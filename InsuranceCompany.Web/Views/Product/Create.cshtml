@@ -1,107 +1,79 @@
-﻿@model InsuranceCompany.Web.Models.Product.CreateProductDto
+﻿@using InsuranceCompany.Web.Models.Item
+@model InsuranceCompany.Web.Models.Product.GetFullProductDto
+
 @{
-    ViewData["Title"] = "Создание нового страхового продукта";
+    Layout = null;
 }
 
-@section Styles {
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Создание или Редактирование Продукта</title>
     <link rel="stylesheet" href="~/css/views/product/create.css" asp-append-version="true" />
-}
-
-@section Scripts {
-    <script src="~/js/views/product/create.js"></script>
-}
-
-
-
-<div class="main__inner">
-    <div class="main__commencement">
-        <h2 class="main__title">@ViewData["Title"]</h2>
+</head>
+<body>
+    <div class="main__inner">
+        <div class="main__commencement">
+            <h2 class="main__title">Создание или Редактирование Продукта</h2>
+        </div>
+        <div class="main__commencement--under-line"></div>
     </div>
-    <div class="main__commencement--under-line"></div>
-</div>
 
-<div class="card-create main-card-inner">
-    <form class="form form--create-product">
-        <div class="form__input-container">
-            <label class="form__label" for="product-title">Название</label>
-            <input class="form__input form__input--title" type="text" name="product-title" required>
-        </div>
-    
-        <div class="form__input-container">
-            <label class="form__label" for="product-descr">Описание</label>
-            <textarea class="form__input form__input--descr" name="product-descr" required></textarea>
-        </div>
-    
-        <div class="form__select-container">
-            <label class="form__label" for="business-line">Линия бизнеса</label>
-            <select class="form__select" name="business-line" id="business-line">
-                @if (Model.LobsDto.Any()){
-                    @foreach (var lob in Model.LobsDto){
-                        <option class="select__option" value="@lob.Id">@lob.Name</option>
-                    }
+    <div>
+        @foreach (var item in Model.Items)
+        {
+            <div>
+                @switch (item)
+                {
+                    case ItemComboBoxDto comboBox:
+                        <div class="form__select-container">
+                            <label class="form__label" for="comboBox">Выбор из списка</label>
+                            <select class="form__select" id="comboBox" name="comboBox">
+                                @foreach (var boxValue in comboBox.Values)
+                                {
+                                    <option value=@boxValue.Value>@boxValue.Name</option>                              
+                                }
+                            </select>
+                        </div>
+                        break;
+                    
+                    case ItemInputBoxDto inputBox:
+                        <div class="form__input-container">
+                            <label class="form__label" for="inputBox">Поле ввода</label>
+                            <input class="form__input" type="text" id="inputBox" name="inputBox" value="@inputBox.Value" />
+                        </div>
+                        break;
+
+                    // Можете добавить другие кейсы для рендеринга других типов элементов
                 }
-            </select>
-            <button class="form__select-icon" id="select-icon-button" type="button">
-                <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
-                    <ellipse cx="26.5" cy="14" rx="14.5" ry="14" fill="#D9D9D9" />
-                    <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
-                </svg>
-            </button>
-        </div>
-    
-        <div class="form__radio-container">
-            <div class="form__radio-wrapper">
-                <label class="form__toggle-label" for="status">Активный/неактивный</label>
-                <div class="form__toggle-button">
-                    <input class="form__radio-input" type="checkbox" id="status" name="status">
-                    <span class="form__slider"></span>
-                </div>
-            </div>
-        </div>
-    
-        <div class="form__risks-container table-wrapper">
-            <label class="form__label" for="risks-table">Риски</label>
-            <table class="create-table">
-                <thead>
-                    <tr>
-                        <th><label for="risk-key">KEY</label></th>
-                        <th><label for="risk-description">Описание</label></th>
-                        <th><label for="basic compensation">Базовый тариф</label></th>
-                        <th><label for="basic compensation">Базовая компенсация</label></th>
-                        <th><label for="can-change">Изменяемый</label></th>
-                    </tr>
-                </thead>
-                
-                <tbody id="risks-body">
-                    <tr>
-                        <td><textarea class="form__table-input" name="risk-key">Р1</textarea></td>
-                        <td><textarea class="form__table-input" name="risk-description"></textarea></td>
-                        <td><input class="form__table-input" type="number" name="start-tarif"></td>
-                        <td><input class="form__table-input" type="number" name="basic compensation"></td>
-                        <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="buttons-under-table__container">
-                <button class="form__add-row" id="add-row" type="button">Добавить строку</button>
-                <button class="form__remove-row" id="remove-row" type="button">Удалить строку</button>
-            </div>
-        </div>
+            </div>        
+        }
+    </div>
 
-        <div class="form__metadata-container">
-            <span class="form__metadata-span">Метаданные</span>
-            <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
-            <div class="form__metadata-table table-input"></div>
-            <div class="form__metadata-table table-select"></div>
-        </div>
-
-        <!-- Модальное окно -->
-        <div id="modal" class="modal">
-            <div class="modal__content">
-                <label for="metadata-type">Выберите тип метаданных</label>
-                <select class="form__select" id="metadata-type">
-                    <option class="select__option" value="input">input</option>
-                    <option class="select__option" value="select">select</option>
+    <!-- Форма создания продукта -->
+    <div class="card-create main-card-inner">
+        <form class="form form--create-product">
+            <div class="form__input-container">
+                <label class="form__label" for="product-title">Название</label>
+                <input class="form__input form__input--title" type="text" name="product-title" required>
+            </div>
+        
+            <div class="form__input-container">
+                <label class="form__label" for="product-descr">Описание</label>
+                <textarea class="form__input form__input--descr" name="product-descr" required></textarea>
+            </div>
+        
+            <div class="form__select-container">
+                <label class="form__label" for="business-line">Линия бизнеса</label>
+                <select class="form__select" name="business-line" id="business-line">
+                    @if (Model.LobsDto.Any())
+                    {
+                        @foreach (var lob in Model.LobsDto)
+                        {
+                            <option class="select__option" value="@lob.Id">@lob.Name</option>
+                        }
+                    }
                 </select>
                 <button class="form__select-icon" id="select-icon-button" type="button">
                     <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
@@ -109,30 +81,86 @@
                         <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
                     </svg>
                 </button>
-                <button class="button-black button-add-metadata" type="button" id="chooseMetadataButton">Выбрать</button>
             </div>
-        </div>
+        
+            <div class="form__radio-container">
+                <div class="form__radio-wrapper">
+                    <label class="form__toggle-label" for="status">Активный/неактивный</label>
+                    <div class="form__toggle-button">
+                        <input class="form__radio-input" type="checkbox" id="status" name="status">
+                        <span class="form__slider"></span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="form__risks-container table-wrapper">
+                <label class="form__label" for="risks-table">Риски</label>
+                <table class="create-table">
+                    <thead>
+                        <tr>
+                            <th><label for="risk-key">KEY</label></th>
+                            <th><label for="risk-description">Описание</label></th>
+                            <th><label for="basic compensation">Базовый тариф</label></th>
+                            <th><label for="basic compensation">Базовая компенсация</label></th>
+                            <th><label for="can-change">Изменяемый</label></th>
+                        </tr>
+                    </thead>
+                    <tbody id="risks-body">
+                        <tr>
+                            <td><textarea class="form__table-input" name="risk-key">Р1</textarea></td>
+                            <td><textarea class="form__table-input" name="risk-description"></textarea></td>
+                            <td><input class="form__table-input" type="number" name="start-tarif"></td>
+                            <td><input class="form__table-input" type="number" name="basic compensation"></td>
+                            <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="buttons-under-table__container">
+                    <button class="form__add-row" id="add-row" type="button">Добавить строку</button>
+                    <button class="form__remove-row" id="remove-row" type="button">Удалить строку</button>
+                </div>
+            </div>
 
-        <!-- Затемняющий фон -->
-        <div id="overlay" class="overlay"></div>
+            <div class="form__metadata-container">
+                <span class="form__metadata-span">Метаданные</span>
+                <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
+                <div class="form__metadata-table table-input"></div>
+                <div class="form__metadata-table table-select"></div>
+            </div>
 
+            <!-- Модальное окно -->
+            <div id="modal" class="modal">
+                <div class="modal__content">
+                    <label for="metadata-type">Выберите тип метаданных</label>
+                    <select class="form__select" id="metadata-type">
+                        <option class="select__option" value="input">input</option>
+                        <option class="select__option" value="select">select</option>
+                    </select>
+                    <button class="form__select-icon" id="select-icon-button" type="button">
+                        <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
+                            <ellipse cx="26.5" cy="14" rx="14.5" ry="14" fill="#D9D9D9" />
+                            <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
+                        </svg>
+                    </button>
+                    <button class="button-black button-add-metadata" type="button" id="chooseMetadataButton">Выбрать</button>
+                </div>
+            </div>
+
+            <!-- Затемняющий фон -->
+            <div id="overlay" class="overlay"></div>
+
+            <div class="form__input-container">
+                <label class="form__label" for="formula">Формула</label>
+                <input class="form__input form__input--formula" type="text" name="formula" required>
+            </div>
+            
+            <div class="button-submit-container">
+                <button class="button__submit button--submit" type="submit">Создать</button>
+                <button class="button__submit button-black button--cancel" type="button">Отмена</button>
+            </div>
+        </form>
+    </div>
     
-        <div class="form__input-container">
-            <label class="form__label" for="formula">Формула</label>
-            <input class="form__input form__input--formula" type="text" name="formula" required>
-        </div>
-        
-        @* <div class="reward-container">
-            <h2 class="reward__title">Вознаграждение</h2>
-            <label class="reward__label" for="fixed-rew">Фиксированное</label>
-            <input class="reward__radio-button" type="radio" name="reward-type" id="fixed-rew" value="fixed">
-            <label class="reward__label" for="percentage-rew">Процентное</label>
-            <input class="reward__radio-button" type="radio" name="reward-type" id="percentage-rew" value="percentage">
-        </div> *@
-        
-        <div class="button-submit-container">
-            <button class="button__submit button--submit" type="sumbit">Создать</button>
-            <button class="button__submit button-black button--cancel" type="button">Отмена</button>
-        </div>
-    </form>
-</div>
+    <script src="~/js/views/product/create.js"></script>
+</body>
+</html>
