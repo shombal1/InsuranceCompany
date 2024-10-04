@@ -15,7 +15,7 @@ public class RiskConfiguration : IEntityTypeConfiguration<ProductRiskEntity>
             .HasColumnName("ID")
             .ValueGeneratedOnAdd();
 
-        builder.Property(r => r.Name).HasMaxLength(50);
+        builder.Property(r => r.Name).HasMaxLength(100);
 
         builder.HasOne(r => r.Product)
             .WithMany(p => p.ProductRisks)

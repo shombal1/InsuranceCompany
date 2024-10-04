@@ -15,7 +15,7 @@ public class StatusAgentContractConfiguration : IEntityTypeConfiguration<StatusA
             .HasColumnName("ID")
             .ValueGeneratedOnAdd();
 
-        builder.Property(s => s.Name).HasMaxLength(15);
+        builder.Property(s => s.Name).HasMaxLength(25);
         
         builder.HasMany(s => s.Agents)
             .WithOne(a => a.Status);

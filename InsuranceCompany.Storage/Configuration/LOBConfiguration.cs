@@ -15,7 +15,7 @@ public class LOBConfiguration : IEntityTypeConfiguration<LOBEntity>
             .HasColumnName("ID")
             .ValueGeneratedOnAdd();
 
-        builder.Property(l => l.Name).HasMaxLength(15);
+        builder.Property(l => l.Name).HasMaxLength(50);
         
         builder.HasMany(l => l.AgentAgreements)
             .WithOne(a => a.LOB);

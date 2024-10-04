@@ -2,6 +2,6 @@
 
 public enum ProductMetafieldType
 {
-    InputBox = 0,
-    ComboBox = 1,
+    ComboBox = 0,
+    InputBox = 1
 }
