@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 
-public class CreateProductQueryValidator : AbstractValidator<CreateProductQuery>
+internal class CreateProductQueryValidator : AbstractValidator<CreateProductQuery>
 {
     public CreateProductQueryValidator()
     {

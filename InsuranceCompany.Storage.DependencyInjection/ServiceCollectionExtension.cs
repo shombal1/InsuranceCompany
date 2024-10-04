@@ -13,6 +13,7 @@ using InsuranceCompany.Domain.UseCases.GetFaceUseCase;
 using InsuranceCompany.Domain.UseCases.GetIkpUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
+using InsuranceCompany.Domain.UseCases.UpdateFullProductUseCase;
 using InsuranceCompany.Storage.Storages;
 using InsuranceCompany.Storage.Storages.Agents;
 using InsuranceCompany.Storage.Storages.Contracts;
@@ -54,7 +55,11 @@ public static class ServiceCollectionExtension
             .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
             .AddScoped<ICreateProductStorage,CreateProductStorage>()
             .AddScoped<IGetFullProduct,GetFullProduct>()
-            .AddScoped<IGetActiveProductsStorage,GetActiveProductsStorage>();
+            .AddScoped<IGetActiveProductsStorage,GetActiveProductsStorage>()
+            .AddScoped<IGetIdItemsStorage,GetIdItemsStorage>()
+            .AddScoped<IUpdateProductStorage,UpdateProductStorage>()
+            .AddScoped<IDeleteItemStorage,DeleteItemStorage>()
+            .AddScoped<IDeleteProductRiskStorage,DeleteProductRiskStorage>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="~/css/views/shared/reset.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/shared/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/shared/header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/shared/footer.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
     
 </head>
@@ -27,7 +29,7 @@
                         <ul class="header__menu">
                             <li class="header__menu--item"><a class="header__menu--link" href="/">Главная</a></li>
                             <li class="header__menu--item"><a class="header__menu--link" href="/product">Страховой <br> продукт-управление</a></li>
-                            <li class="header__menu--item"><a class="header__menu--link" href="#">Страховой <br> продукт-продажи</a></li>
+                            <li class="header__menu--item"><a class="header__menu--link" href="/buy-product">Страховой <br> продукт-продажи</a></li>
                             <li class="header__menu--item"><a class="header__menu--link" href="#">Страховые <br> договора</a></li>
                         </ul>
                     </nav>
@@ -43,7 +45,14 @@
         </div>
     </main>
 
+    <footer class="footer">
+        <div class="footer__inner">
+            <h2 class="footer__title">РАЗРАБОТАНО КОМАНДОЙ ЛИДЕРЫ ДЛЯ КОМПАНИИ СОГЛАСИЕ</h2>
+        </div>
+    </footer>
+
     <script src="~/js/views/shared/header.js"></script>
+    <script src="~/js/views/shared/main.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

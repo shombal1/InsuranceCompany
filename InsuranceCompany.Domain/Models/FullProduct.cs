@@ -10,8 +10,8 @@ public class FullProduct
     public int LOBId { get; set; }
     public bool Active { get; set; }
     
-    public List<ItemBase> Items { get; set; }
-    public List<ProductRisk> Risks { get; set; }
+    public ICollection<ItemBase> Items { get; set; }
+    public ICollection<ProductRisk> Risks { get; set; }
     
     public string Formula { get; set; }
 }

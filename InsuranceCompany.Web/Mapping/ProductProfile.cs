@@ -2,6 +2,7 @@
 using InsuranceCompany.Domain.Models;
 using InsuranceCompany.Domain.Models.Items;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
+using InsuranceCompany.Domain.UseCases.UpdateFullProductUseCase;
 using InsuranceCompany.Web.Models.Item;
 using InsuranceCompany.Web.Models.Product;
 using ComboBoxValue = InsuranceCompany.Domain.Models.Items.ComboBoxValue;
@@ -16,9 +17,12 @@ public class ProductProfile : Profile
             .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.NameLOB));
 
         CreateMap<ActiveProduct, GetActiveProductDto>();
-        
+
+        CreateMap<UpdateFullProductDto, UpdateFullProductCommand>()
+            .ForMember(d=>d.ProductId,opt=>opt.Ignore());
+        CreateMap<ProductRiskDto, UpdateProductRiskCommand>();
         CreateMap<SaveProductDto, SaveProductCommand>();
-        CreateMap<ProductRiskDto, ProductRiskCommand>();
+        CreateMap<ProductRiskDto, CreateProductRiskCommand>();
         CreateMap<Models.Item.ComboBoxValue, ComboBoxValue>();
 
         CreateMap<ProductRisk, ProductRiskDto>();

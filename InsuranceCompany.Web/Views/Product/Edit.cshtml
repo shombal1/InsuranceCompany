@@ -1,39 +1,187 @@
-﻿@using System.Text.Json
 @using InsuranceCompany.Web.Models.Item
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model InsuranceCompany.Web.Models.Product.EditProductDto
-
 @{
-    Layout = null;
+    ViewData["Title"] = "Просмотр/изменение страхового продукта";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/product/create.css" asp-append-version="true" />
+}
+@section Scripts {
+    <script src="~/js/views/product/create.js"></script>
 }
 
-<!DOCTYPE html>
+<div class="main__inner">
+    <div class="main__commencement">
+        <h2 class="main__title">@ViewData["Title"]</h2>
+    </div>
+    <div class="main__commencement--under-line"></div>
+</div>
 
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-    @{
-        foreach (var item in Model.Items)
-        {
-            <div>
-                @switch (item)
-                {
-                    case ItemComboBoxDto comboBox:
-                        <select id="cities" name="cities">
-                            @foreach (var boxValue in comboBox.Values)
-                            {
-                                <option value=@boxValue.Value>@boxValue.Name</option>
-                            }
-                        </select>
-                        break;
-                    case ItemInputBoxDto inputBox:
-                        break;
+<div class="card-create main-card-inner">
+    <form class="form form--create-product">
+        <div class="form__input-container">
+            <label class="form__label" for="product-title">Название</label>
+            <input class="form__input form__input--title" type="text" name="product-title" required value="@Model.Name">
+        </div>
+    
+        <div class="form__input-container">
+            <label class="form__label" for="product-descr">Описание</label>
+            <textarea class="form__input form__input--descr" name="product-descr" required>@Model.Description</textarea>
+        </div>
+    
+        <div class="form__select-container">
+            <label class="form__label" for="business-line">Линия бизнеса</label>
+            <select class="form__select" name="business-line" id="business-line">
+                @foreach (var lob in Model.LobsDto){
+                    var selected = lob.Id == Model.LOBId ? 1 : 0;
+                    <option class="select__option" value="@lob.Id" selected="@selected">@lob.Name</option>
+                }
+            </select>
+            <button class="form__select-icon" id="select-icon-button" type="button">
+                <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
+                    <ellipse cx="26.5" cy="14" rx="14.5" ry="14" fill="#D9D9D9" />
+                    <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
+                </svg>
+            </button>
+        </div>
+    
+        <div class="form__radio-container">
+            <div class="form__radio-wrapper">
+                <label class="form__toggle-label" for="status">Активный/неактивный</label>
+                <div class="form__toggle-button">
+                    <input class="form__radio-input" type="checkbox" id="status" name="status" checked="@Model.Active">
+                    <span class="form__slider"></span>
+                </div>
+            </div>
+        </div>
+    
+        <div class="form__risks-container table-wrapper">
+            <label class="form__label" for="risks-table">Риски</label>
+            <table class="create-table">
+                <thead>
+                    <tr>
+                        <th><label for="risk-key">KEY</label></th>
+                        <th><label for="risk-description">Описание</label></th>
+                        <th><label for="basic compensation">Базовый тариф</label></th>
+                        <th><label for="basic compensation">Базовая компенсация</label></th>
+                        <th><label for="can-change">Изменяемый</label></th>
+                    </tr>
+                </thead>
+                
+                <tbody id="risks-body">
+                    @foreach (var risk in Model.Risks){
+                        <tr>
+                            <td><textarea class="form__table-input" name="risk-key" disabled data-id="@risk.Key.Substring(1)">@risk.Key</textarea></td>
+                            <td><textarea class="form__table-input" name="risk-description" required>@risk.Name</textarea></td>
+                            <td><input class="form__table-input" type="number" name="start-tarif" required value="@risk.Premium"></td>
+                            <td><input class="form__table-input" type="number" name="basic compensation" value="@risk.InsuranceSum"></td>
+                            <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input" checked="@risk.Active"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="buttons-under-table__container">
+                <button class="form__add-row" id="add-row" type="button">Добавить строку</button>
+                <button class="form__remove-row" id="remove-row" type="button">Удалить строку</button>
+            </div>
+        </div>
+
+        <div class="form__metadata-container">
+            <span class="form__metadata-span">Метаданные</span>
+            <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
+            <div class="form__metadata-tables">
+                @foreach (var item in Model.Items) {
+                    @switch (item) {
+                        case ItemComboBoxDto comboBox:
+                            var id_table = comboBox.Key.Substring(1, comboBox.Key.Length - 2);
+                            bool isFirstIteration = true;
+                            <div class="table-wrapper table-wrapper-type-select" id="metadata-table-@id_table" data-id="@id_table">
+                                <table class="create-table">
+                                    <thead>
+                                        <tr>
+                                            <th><label for="metadata-key">KEY</label></th>
+                                            <th><label for="metadata-description">Описание</label></th>
+                                            <th><label for="metadata-meaning">Значение</label></th>
+                                            <th><label for="metadata-value">value</label></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="@id_table-body" data-id="@id_table" data-key-prefix="S">
+                                        @foreach (var value in comboBox.Values) {
+                                            <tr class="row-table-with-buttons">
+                                                <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-key" disabled>@(isFirstIteration ? comboBox.Key : "")</textarea></td>
+                                                <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-description" @(isFirstIteration ? "required" : "disabled")>@(isFirstIteration ? comboBox.Description : "")</textarea></td>
+                                                <td><input class="form__table-input" name="metadata-meaning" required value="@value.Name"></td>
+                                                <td><input class="form__table-input" name="metadata-value" required value="@value.Value"></td>
+                                            </tr>
+                                            isFirstIteration = false;
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="buttons-under-table__container">
+                                    <button class="form__add-row" data-table-id="@id_table" type="button">Добавить</button>
+                                    <button class="form__remove-row" data-table-id="@id_table" type="button">Удалить</button>
+                                </div>
+                            </div>
+                            break;
+                        case ItemInputBoxDto inputBox:
+                            var id_table_i = inputBox.Key.Substring(1, inputBox.Key.Length - 2);
+                            <div class="table-wrapper table-wrapper-type-input" id="metadata-table-@id_table_i" data-id="@id_table_i">
+                                <table class="create-table">
+                                    <thead>
+                                        <tr>
+                                            <th><label for="metadata-key">KEY</label></th>
+                                            <th><label for="metadata-description">Описание</label></th>                                                
+                                        </tr>
+                                    </thead>
+                                    <tbody id="@id_table_i-body" data-id="@id_table_i" data-key-prefix="I">
+                                        <tr class="row-table-with-buttons">
+                                            <td><textarea class="form__table-input" name="metadata-key" disabled>@inputBox.Key</textarea></td>
+                                            <td><textarea class="form__table-input" name="metadata-description" required>@inputBox.Description</textarea></td>                                                
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="buttons-under-table__container">                                        
+                                    <button class="form__remove-row" data-table-id="@id_table_i" type="button">Удалить</button>
+                                </div>
+                            </div>
+                            break;
+                    }
                 }
             </div>
-        }
-    }
+        </div>
+
+        <!-- Модальное окно -->
+        <div id="modal" class="modal">
+            <div class="modal__content">
+                <label for="metadata-type">Выберите тип метаданных</label>
+                <select class="form__select" id="metadata-type">
+                    <option class="select__option" value="input">input</option>
+                    <option class="select__option" value="select">select</option>
+                </select>
+                <button class="form__select-icon" id="select-icon-button" type="button">
+                    <svg class="form__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="45" height="34" viewBox="0 -5 45 34" fill="none">
+                        <ellipse cx="26.5" cy="14" rx="14.5" ry="14" fill="#D9D9D9" />
+                        <path class="form__arrow-path" d="M26.5 22L20.0048 9.25L32.9952 9.25L26.5 22Z" fill="black" />
+                    </svg>
+                </button>
+                <button class="button-black button-add-metadata" type="button" id="chooseMetadataButton">Выбрать</button>
+            </div>
+        </div>
+
+        <!-- Затемняющий фон -->
+        <div id="overlay" class="overlay"></div>
+
+    
+        <div class="form__input-container">
+            <label class="form__label" for="formula">Формула</label>
+            <input class="form__input form__input--formula" type="text" name="formula" required value="@Model.Formula">
+        </div>
+        
+        <div class="button-submit-container">
+            <button class="button__submit button--submit-draft" type="submit">Сохранить <br> как черновик</button>
+            <button class="button__submit button--submit" type="submit">Просмотр</button>
+            <button class="button__submit button-black button--cancel" type="button">Назад</button>
+        </div>
+    </form>
 </div>
-</body>
-</html>

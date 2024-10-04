@@ -11,11 +11,15 @@ internal class GetProductsStorage(InsuranceCompanyDbContext dbContext,IMapper ma
 {
     public Task<Product> Get(int productId, CancellationToken cancellationToken)
     {
-        return dbContext.Products.ProjectTo<Product>(mapper.ConfigurationProvider).FirstAsync(cancellationToken);
+        return dbContext.Products
+            .ProjectTo<Product>(mapper.ConfigurationProvider)
+            .FirstAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Product>> Get(CancellationToken cancellationToken)
     {
-        return await dbContext.Products.ProjectTo<Product>(mapper.ConfigurationProvider).ToArrayAsync(cancellationToken);
+        return await dbContext.Products
+            .ProjectTo<Product>(mapper.ConfigurationProvider)
+            .ToArrayAsync(cancellationToken);
     }
 }

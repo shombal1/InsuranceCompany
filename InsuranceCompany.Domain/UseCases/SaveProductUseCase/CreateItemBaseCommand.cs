@@ -2,7 +2,7 @@
 
 namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
-public class ItemBaseCommand
+public class CreateItemBaseCommand
 {    
     public int Index { get; set; }
     public string Key { get; set; }

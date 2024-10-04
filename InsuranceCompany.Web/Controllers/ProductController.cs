@@ -6,6 +6,7 @@ using InsuranceCompany.Domain.UseCases.EditProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
 using InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
+using InsuranceCompany.Domain.UseCases.UpdateFullProductUseCase;
 using InsuranceCompany.Web.Models;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
@@ -14,13 +15,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace InsuranceCompany.Web.Controllers;
 
 [Controller]
-[Route("[controller]")]
+[Route("product")]
 public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeController> logger) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index() // url: GET /product/
     {
-        // логика получения всех продуктов и передача данных в View
         return View(new GetProductsDto()
         {
             Products = (await mediator.Send(new GetProductsQuery()))
@@ -29,18 +29,6 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         });
     }
 
-    [HttpGet]
-    [Route("buy")]
-    public async Task<IActionResult> GetActiveProducts()
-    {
-        return Ok(new GetActiveProductsDto()
-        {
-            Products = (await mediator.Send(new GetActiveProductsQuery()))
-                .Select(mapper.Map<GetActiveProductDto>)
-                .ToList()
-        });
-    }
-    
     [HttpGet]
     [Route("create")]
     public async Task<IActionResult> Create() // url: GET /product/create
@@ -72,7 +60,7 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         }
         catch (Exception e)
         {
-            return Ok(e.Message);
+            return Ok(e);
         }
     }
 
@@ -80,15 +68,16 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     [Route("edit/{productId}")]
     public async Task<IActionResult> Edit(int productId) // url: GET /product/edit/{id}
     {
-        // логика получения конкретного продукта и всех его связей
-
         return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
     }
     //
-    // [HttpPut]
-    // public IActionResult Update(int id, [FromBody] UpdateProductDto updateProductDto) // url: POST /product/update/{id}
-    // {
-    //     // логика получения конкретного продукта и его одновления
-    //     return Ok("success");
-    // }
+    [HttpPut]
+    [Route("update/{productId}")]
+    public async Task<IActionResult> Update(int productId, [FromBody] UpdateFullProductDto updateFullProductDto) // url: POST /product/update/{id}
+    {
+        var command = mapper.Map<UpdateFullProductCommand>(updateFullProductDto);
+        command.ProductId = productId;
+        await mediator.Send(command);
+        return Ok("success");
+    }
 }

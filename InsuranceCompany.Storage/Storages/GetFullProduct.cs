@@ -10,7 +10,8 @@ public class GetFullProduct(InsuranceCompanyDbContext dbContext,IMapper mapper) 
 {
     public Task<FullProduct> Get(int productId, CancellationToken cancellationToken)
     {
-        return dbContext.Products.Where(p => p.Id == productId)
+        return dbContext.Products
+            .Where(p => p.Id == productId)
             .Include(p=>p.LOB)
             .Include(p => p.ProductMetafield)
             .Include(p => p.ProductRisks)

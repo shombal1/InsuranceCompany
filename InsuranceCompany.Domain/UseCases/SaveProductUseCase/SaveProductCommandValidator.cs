@@ -5,10 +5,10 @@ using Microsoft.Extensions.Logging;
 
 namespace InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 
-public class SaveProductCommandValidator: AbstractValidator<SaveProductCommand>
+internal class SaveProductCommandValidator: AbstractValidator<SaveProductCommand>
 {
-    public SaveProductCommandValidator(IValidator<ItemInputBoxCommand> inputBoxValidator,
-        IValidator<ItemComboBoxCommand> comboBoxValidator)
+    public SaveProductCommandValidator(IValidator<CreateItemInputBoxCommand> inputBoxValidator,
+        IValidator<CreateItemComboBoxCommand> comboBoxValidator)
     {
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Empty")
@@ -23,10 +23,10 @@ public class SaveProductCommandValidator: AbstractValidator<SaveProductCommand>
             {
                 switch (item)
                 {
-                    case ItemInputBoxCommand inputBoxCommand:
+                    case CreateItemInputBoxCommand inputBoxCommand:
                         inputBoxValidator.Validate(inputBoxCommand);
                         break;
-                    case ItemComboBoxCommand inputBoxCommand:
+                    case CreateItemComboBoxCommand inputBoxCommand:
                         comboBoxValidator.Validate(inputBoxCommand);
                         break;
                     default:
@@ -37,6 +37,6 @@ public class SaveProductCommandValidator: AbstractValidator<SaveProductCommand>
         
         RuleFor(x => x.Risks)
             .NotNull().WithMessage("Empty")
-            .ForEach(risk => risk.SetValidator(new ProductRiskCommandValidator()));
+            .ForEach(risk => risk.SetValidator(new CreateProductRiskCommandValidator()));
     }
 }
