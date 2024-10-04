@@ -15,7 +15,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
             .HasColumnName("ID")
             .ValueGeneratedOnAdd();
 
-        builder.Property(p => p.Name).HasMaxLength(50);
+        builder.Property(p => p.Name).HasMaxLength(100);
 
         builder.HasMany(p => p.Contracts)
             .WithOne(c => c.Product);

@@ -68,7 +68,9 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     [Route("edit/{productId}")]
     public async Task<IActionResult> Edit(int productId) // url: GET /product/edit/{id}
     {
-        return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
+        var editProduct = mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId)));
+        logger.LogInformation(JsonSerializer.Serialize(editProduct));
+        return View(editProduct);
     }
     //
     [HttpPut]
