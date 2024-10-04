@@ -321,7 +321,7 @@ input:focus, textarea:focus {
     margin-left: 15px;
 }
 
-.reward__title {
+.reward__title, .details__title {
     margin-right: 38px;
 }
 
@@ -382,12 +382,18 @@ input:focus, textarea:focus {
     margin-top: 100px;
 }
 
-.button--submit {
+.button--submit, .button--submit-draft {
     border-radius: 8px;
-    background: #F6893A;
-    padding: 21.5px 32px 20.5px 33px;
     border: none;
     color: white;
+    max-height: 63px;
+    font-size: 16px;
+    min-width: 162px;
+}
+
+.button--submit {
+    background: #F6893A;
+    padding: 21px 32px 20px 33px;
 }
 
 .button--cancel {

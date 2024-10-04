@@ -10,6 +10,7 @@
     border: none;
     border-radius: 8px;
     font-family: 'Inter';
+}
 
 p, span, ul, li, a, input, button, label {
     font-feature-settings: 'liga' off, 'clig' off;
