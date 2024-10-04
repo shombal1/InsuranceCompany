@@ -12,7 +12,7 @@ internal class CreateContractStorage(InsuranceCompanyDbContext dbContext, IMappe
     {
         ContractEntity entity = mapper.Map<ContractEntity>(contract);
 
-        EntityEntry<ContractEntity> entityEntry = await dbContext.Contracts.AddAsync(mapper.Map<ContractEntity>(entity));
+        EntityEntry<ContractEntity> entityEntry = await dbContext.Contracts.AddAsync(entity);
 
         await dbContext.SaveChangesAsync();
 

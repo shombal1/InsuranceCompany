@@ -17,9 +17,7 @@ public class FaceConfiguration : IEntityTypeConfiguration<FaceEntity>
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Type)
-            .HasConversion(
-                c => ExtensionFaceType.ToString(c),
-                c => ExtensionFaceType.ParseString(c))
+            .HasConversion<int>()
             .HasMaxLength(25);
 
         builder.Property(f => f.FirstName).HasMaxLength(15);

@@ -1,12 +1,18 @@
 ﻿using System.Reflection;
 using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateContractUseCase;
+using InsuranceCompany.Domain.UseCases.CreateFaceUseCase;
+using InsuranceCompany.Domain.UseCases.CreateIkpUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetContractUseCase;
+using InsuranceCompany.Domain.UseCases.GetFaceUseCase;
+using InsuranceCompany.Domain.UseCases.GetIkpUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
 using InsuranceCompany.Storage.Storages.Contracts;
+using InsuranceCompany.Storage.Storages.Faces;
+using InsuranceCompany.Storage.Storages.Ikps;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,14 +25,22 @@ public static class ServiceCollectionExtension
     {
         services
             .AddScoped<IGetProductsStorage, GetProductsStorage>()
-            .AddScoped<IGetLobsStorage,GetLobsStorage>()
-            .AddScoped<ICreateItemStorage,CreateItemStorage>()
-            .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
-            .AddScoped<ICreateProductStorage,CreateProductStorage>()
-            .AddScoped<IGetLobsStorage,GetLobsStorage>()
+            .AddScoped<IGetLobsStorage, GetLobsStorage>()
+            .AddScoped<ICreateItemStorage, CreateItemStorage>()
+            .AddScoped<ICreateProductRiskStorage, CreateProductRiskStorage>()
+            .AddScoped<ICreateProductStorage, CreateProductStorage>()
+            .AddScoped<IGetLobsStorage, GetLobsStorage>()
+
             .AddScoped<ICreateContractStorage, CreateContractStorage>()
-            .AddScoped<IGetContractStorage, GetContractStorage>();
-        
+            .AddScoped<IGetContractStorage, GetContractStorage>()
+
+            .AddScoped<ICreateFaceStorage, CreateFaceStorage>()
+            .AddScoped<IGetFaceStorage, GetFaceStorage>()
+
+            .AddScoped<ICreateIkpStorage, CreateIkpStorage>()
+            .AddScoped<IGetIkpStorage, GetIkpStorage>()
+            ;
+
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });
 

@@ -5,7 +5,6 @@ namespace InsuranceCompany.Domain.UseCases.CreateContractUseCase;
 
 public record CreateContractCommand : IRequest<int>
 {
-    public int Id { get; set; }
     public DateTime DateSign { get; set; }
     public int ProductId { get; set; }
     public DateTime DateBegin { get; set; }
