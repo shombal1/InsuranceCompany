@@ -2,6 +2,7 @@
 using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateContractUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetContractUseCase;
 using InsuranceCompany.Domain.UseCases.GetProducts;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
@@ -21,9 +22,10 @@ public static class ServiceCollectionExtension
             .AddScoped<IGetLobsStorage,GetLobsStorage>()
             .AddScoped<ICreateItemStorage,CreateItemStorage>()
             .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
-            .AddScoped<ICreateProductStorage,CreateProductStorage>();
+            .AddScoped<ICreateProductStorage,CreateProductStorage>()
             .AddScoped<IGetLobsStorage,GetLobsStorage>()
-            .AddScoped<ICreateContractStorage, CreateContractStorage>();
+            .AddScoped<ICreateContractStorage, CreateContractStorage>()
+            .AddScoped<IGetContractStorage, GetContractStorage>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });

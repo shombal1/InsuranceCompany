@@ -9,6 +9,7 @@ namespace InsuranceCompany.Storage.Mapping
         public ContractProfile()
         {
             CreateMap<Contract, ContractEntity>();
+            CreateMap<ContractEntity, Contract>();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace InsuranceCompany.Web.Models.Contract;
 
-public record ContractDto (
+public record CreateContractDto (
     DateTime DateCreate,
     DateTime DateSign,
     int ProductId,

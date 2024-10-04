@@ -6,6 +6,8 @@ public class CreateContractCommandValidator : AbstractValidator<CreateContractCo
 {
     public CreateContractCommandValidator()
     {
-        
+        RuleFor((c) => c.Status).NotNull();
+        RuleFor((c) => c.AgentId).NotNull();
+        RuleFor((c) => c.ProductId).NotNull();
     }
 }

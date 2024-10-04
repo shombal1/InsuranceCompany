@@ -9,8 +9,10 @@ namespace InsuranceCompany.Web.Mapping
     {
         public ContractProfile()
         {
-            CreateMap<ContractDto, CreateContractCommand>();
-            CreateMap<Contract, ContractDto>();
+            CreateMap<CreateContractDto, CreateContractCommand>();
+            CreateMap<Contract, CreateContractDto>();
+
+            CreateMap<Contract, GetContractDto>();
         }
     }
 }
