@@ -12,11 +12,10 @@ public class ProductProfile : Profile
     public ProductProfile()
     {
         CreateMap<ProductEntity, Product>()
-            .ForMember(d => d.Id, s => s.MapFrom(f => f.Id))
-            .ForMember(d => d.Name, s => s.MapFrom(f => f.Name))
-            .ForMember(d => d.Description, s => s.MapFrom(f => f.Description))
             .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.LOB.Name));
 
+        CreateMap<ProductEntity, ActiveProduct>()
+            .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.LOB.Name));
 
         CreateMap<ProductEntity, FullProduct>()
             .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.LOB.Name))

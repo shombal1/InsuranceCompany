@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using InsuranceCompany.Domain.Models;
-using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
+using InsuranceCompany.Domain.UseCases.EditProductUseCase;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Storage.Storages;

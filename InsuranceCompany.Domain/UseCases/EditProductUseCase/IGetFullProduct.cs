@@ -1,6 +1,6 @@
 ﻿using InsuranceCompany.Domain.Models;
 
-namespace InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
+namespace InsuranceCompany.Domain.UseCases.EditProductUseCase;
 
 public interface IGetFullProduct: IStorage
 {

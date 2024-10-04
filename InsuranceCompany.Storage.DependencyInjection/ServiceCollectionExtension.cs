@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using InsuranceCompany.Domain.UseCases;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
-using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
-using InsuranceCompany.Domain.UseCases.GetProducts;
+using InsuranceCompany.Domain.UseCases.EditProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
+using InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Storages;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +22,8 @@ public static class ServiceCollectionExtension
             .AddScoped<ICreateItemStorage,CreateItemStorage>()
             .AddScoped<ICreateProductRiskStorage,CreateProductRiskStorage>()
             .AddScoped<ICreateProductStorage,CreateProductStorage>()
-            .AddScoped<IGetFullProduct,GetFullProduct>();
+            .AddScoped<IGetFullProduct,GetFullProduct>()
+            .AddScoped<IGetActiveProductsStorage,GetActiveProductsStorage>();
         
         services.AddDbContextPool<InsuranceCompanyDbContext>(
             options => { options.UseNpgsql(dbConnectionStringPostgres); });

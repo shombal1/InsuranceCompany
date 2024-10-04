@@ -2,11 +2,11 @@
 using AutoMapper;
 using InsuranceCompany.Domain.UseCases.CopyProductUseCase;
 using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
-using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
-using InsuranceCompany.Domain.UseCases.GetProducts;
+using InsuranceCompany.Domain.UseCases.EditProductUseCase;
+using InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
+using InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Web.Models;
-using InsuranceCompany.Web.Models.Item;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +23,23 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
         // логика получения всех продуктов и передача данных в View
         return View(new GetProductsDto()
         {
-            Products = (await mediator.Send(new GetProductsQuery())).Select(mapper.Map<GetProductDto>).ToList()
+            Products = (await mediator.Send(new GetProductsQuery()))
+                .Select(mapper.Map<GetProductDto>)
+                .ToList()
         });
     }
 
-    // [HttpGet]
-    // [Route("buy")]
-    // public async Task<IActionResult> GetActiveProduct()
-    // {
-    //     
-    // }
+    [HttpGet]
+    [Route("buy")]
+    public async Task<IActionResult> GetActiveProducts()
+    {
+        return Ok(new GetActiveProductsDto()
+        {
+            Products = (await mediator.Send(new GetActiveProductsQuery()))
+                .Select(mapper.Map<GetActiveProductDto>)
+                .ToList()
+        });
+    }
     
     [HttpGet]
     [Route("create")]
@@ -40,12 +47,14 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     {
         return View(new CreateProductDto()
         {
-            LobsDto = (await mediator.Send(new CreateProductQuery())).Select(mapper.Map<LOBDto>).ToList()
+            LobsDto = (await mediator.Send(new CreateProductQuery()))
+                .Select(mapper.Map<LOBDto>)
+                .ToList()
         });
     }
 
     [HttpPost]
-    [Route("copy")]
+    [Route("copy/{productId}")]
     public async Task<IActionResult> Copy(int productId)
     {
         return Ok(await mediator.Send(new CopyProductCommand(productId)));
@@ -68,12 +77,12 @@ public class ProductController(IMediator mediator, IMapper mapper, ILogger<HomeC
     }
 
     [HttpGet]
-    [Route("edit")]
+    [Route("edit/{productId}")]
     public async Task<IActionResult> Edit(int productId) // url: GET /product/edit/{id}
     {
         // логика получения конкретного продукта и всех его связей
 
-        return View(mapper.Map<GetFullProductDto>(await mediator.Send(new GetFullProductQuery(productId))));
+        return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
     }
     //
     // [HttpPut]

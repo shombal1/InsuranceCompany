@@ -15,6 +15,8 @@ public class ProductProfile : Profile
         CreateMap<Product, GetProductDto>()
             .ForMember(d => d.NameLOB, s => s.MapFrom(f => f.NameLOB));
 
+        CreateMap<ActiveProduct, GetActiveProductDto>();
+        
         CreateMap<SaveProductDto, SaveProductCommand>();
         CreateMap<ProductRiskDto, ProductRiskCommand>();
         CreateMap<Models.Item.ComboBoxValue, ComboBoxValue>();
@@ -26,6 +28,10 @@ public class ProductProfile : Profile
             .ForMember(d => d.Items, s => s.MapFrom(f => f.Items))
             .ForMember(d => d.Risks, s => s.MapFrom(f => f.Risks));
 
+        CreateMap<EditProduct,EditProductDto>()
+            .ForMember(d => d.Items, s => s.MapFrom(f => f.Items))
+            .ForMember(d => d.Risks, s => s.MapFrom(f => f.Risks))
+            .ForMember(d => d.LobsDto, s => s.MapFrom(f => f.LOBs));
 
     }
 }

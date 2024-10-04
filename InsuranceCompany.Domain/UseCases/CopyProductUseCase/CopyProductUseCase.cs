@@ -1,5 +1,5 @@
 ﻿using InsuranceCompany.Domain.Models.Items;
-using InsuranceCompany.Domain.UseCases.GetFullProductUseCase;
+using InsuranceCompany.Domain.UseCases.EditProductUseCase;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using MediatR;
 

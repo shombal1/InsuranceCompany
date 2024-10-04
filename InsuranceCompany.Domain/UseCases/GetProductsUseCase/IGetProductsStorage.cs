@@ -1,6 +1,6 @@
 ﻿using InsuranceCompany.Domain.Models;
 
-namespace InsuranceCompany.Domain.UseCases.GetProducts;
+namespace InsuranceCompany.Domain.UseCases.GetProductsUseCase;
 
 public interface IGetProductsStorage : IStorage
 {
