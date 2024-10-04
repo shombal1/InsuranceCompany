@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Функция для отображения меню
     function toggleMenu() {
-        if (window.innerWidth <= 1134) {
+        if (window.innerWidth <= 1263) {
             navMenu.classList.toggle('visible');
         }
     }
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обновление отображения меню при изменении размера окна
     window.addEventListener('resize', function () {
-        if (window.innerWidth > 1134) {
+        if (window.innerWidth > 1263) {
             navMenu.classList.add('visible'); // Показать меню на десктопе
         } else {
             navMenu.classList.remove('visible'); // Скрыть меню на мобильных

@@ -98,8 +98,10 @@ input:focus, textarea:focus {
     position: relative;
 }
 
-.form__metadata-container .form__select-container .form__select {
-    padding: 0 55px 0 0;
+.modal__content .form__select-icon {
+    z-index: 1000;
+    top: 46%;
+    right: 5%;
 }
 
 .form__select-icon {
@@ -128,6 +130,12 @@ input:focus, textarea:focus {
 
 .form__select-container {
     padding-right: 20px;
+}
+
+.form__select-modal {
+    background-color: black;
+    border-radius: 10px;
+    z-index: 100;
 }
 
 .form__radio-container .form__label {
@@ -188,41 +196,46 @@ input:focus, textarea:focus {
     background-color: #073826;
 }
 
-.form__risks-table {
+.create-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 50px;
 }
 
-.form__risks-table th label {
+.create-table th label {
     cursor: default;
     display: flex;
     justify-content: center;
 }
 
-.form__risks-table td {
+.create-table td {
     padding: 10px;
     vertical-align: top;
 }
 
-.form__risks-table th,
-.form__risks-table td {
+.create-table th,
+.create-table td {
     border: 4px solid rgba(0, 0, 0, 0.06);
     padding: 15px;
     text-align: left;
 }
 
-.form__risks-table th {
+.create-table th {
     background: #F7F7F7;
     font-weight: bold;
 }
 
-.form__risks-container {
+.table-wrapper {
     border-radius: 20px;
     border: 4px solid rgba(0, 0, 0, 0.06);
     background: #FFF;
     padding: 15px;
     min-height: 150px;
+    margin-bottom: 20px;
+}
+
+.buttons-under-table__container {
+    display: inline-block;
 }
 
 .form__table-input {
@@ -244,31 +257,27 @@ input:focus, textarea:focus {
     padding: 10px;
 }
 
-.form__risks-container button {
+.form__add-row, .form__remove-row {
+    background-color: #4CAF50;
+    margin-top: 20px;
     color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 4px;
     font-size: 20px;
+    margin-right: 50px;
 }
 
 .form__remove-row {
-    width: 100%;
-    min-height: 100%;
+    background-color: #f44336;
 }
 
-.form__add-row {
-    background-color: #4CAF50;
-    margin-top: 20px;
+.form__remove-row:hover {
+    background-color: red;
 }
 
 .form__add-row:hover {
     background-color: #45a049;
-}
-
-.form__td-remove-button {
-    background-color: #f44336;
-    cursor: pointer;
 }
 
 .form__metadata-button, .form__metadata-span {
@@ -286,6 +295,7 @@ input:focus, textarea:focus {
 .form__metadata-span {
     border: none;
     background: none;
+    margin-top: 0;
 }
 
 .select__metadata-container {
@@ -311,7 +321,7 @@ input:focus, textarea:focus {
     margin-left: 15px;
 }
 
-.reward__title {
+.reward__title, .details__title {
     margin-right: 38px;
 }
 
@@ -372,17 +382,83 @@ input:focus, textarea:focus {
     margin-top: 100px;
 }
 
-.button--submit {
+.button--submit, .button--submit-draft {
     border-radius: 8px;
-    background: #F6893A;
-    padding: 21.5px 32px 20.5px 33px;
     border: none;
     color: white;
+    max-height: 63px;
+    font-size: 16px;
+    min-width: 162px;
+}
+
+.button--submit {
+    background: #F6893A;
+    padding: 21px 32px 20px 33px;
 }
 
 .button--cancel {
     padding: 21.5px 51px 20.5px 51px;
 }
+
+/* Стили для модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 101; /* Выше, чем затемнение */
+    width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal__content label {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.modal__content .form__select {
+    margin-bottom: 15px;
+    width: 100%;
+    font-size: 18px;
+    padding-left: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    background: #FFF;
+    display: inline-flex;
+    padding: 0 40px 0 31px;
+    min-height: 30px;
+}
+
+/* Стили для затемняющего фона */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100; /* Под модальным окном */
+}
+
+.button-add-metadata {
+    margin-top: 35px;
+}
+
+.table-input, .table-select {
+    margin-bottom: 20px;
+}
+
 
 @media (max-width: 1339px) {
     .form__risks-table {

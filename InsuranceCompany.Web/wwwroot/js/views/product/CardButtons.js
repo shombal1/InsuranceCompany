@@ -14,29 +14,46 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Обработчик для кнопок "Создать новое копированием"
-    document.querySelectorAll('.button-copy').forEach(button => {
-        button.addEventListener('click', () => {
-            const card = button.closest('.card');
-            const id = card.getAttribute('data-id');
-    
-            // Выполняем POST-запрос на /product/create/{id}
-            fetch(`/product/create/${id}`, {
+    const form = document.querySelector('.form--create-product');
+    const createProductButton = document.querySelector('.button--submit');
+
+    createProductButton.addEventListener('click', async (event) => {
+        event.preventDefault(); // предотвращаем отправку формы по умолчанию
+
+        // Получаем данные из формы
+        const formData = new FormData(form);
+
+        // Конвертируем FormData в объект
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        try {
+            // Выполняем POST запрос
+            const response = await fetch('/api/products', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.redirect) {
-                    // Перенаправляем на /product/edit/{new_id} после успешного запроса
-                    window.location.href = `/product/edit/${data.redirect}`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
             });
-        });
+
+            if (response.ok) {
+                // Обработка успешного ответа
+                const result = await response.json();
+                console.log('Созданный продукт:', result);
+                // Вы можете добавить редирект или показать сообщение об успешном создании
+            } else {
+                // Обработка ошибок
+                const error = await response.json();
+                console.error('Ошибка:', error);
+                alert('Ошибка при создании продукта: ' + error.message);
+            }
+        } catch (error) {
+            console.error('Ошибка сети:', error);
+            alert('Ошибка сети. Пожалуйста, попробуйте позже.');
+        }
     });
     
 
