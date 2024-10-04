@@ -1,0 +1,17 @@
+.footer__inner {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.footer__title {
+    color: #000;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: Inter;
+    font-size: calc(14px + (1vw - 9.6px));
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: 0.56px;
+    text-transform: uppercase;
+}
