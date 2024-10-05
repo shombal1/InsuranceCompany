@@ -137,7 +137,6 @@ namespace InsuranceCompany.Storage.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<int>("Status")
-                        .HasMaxLength(25)
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -216,7 +215,6 @@ namespace InsuranceCompany.Storage.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<int>("Type")
-                        .HasMaxLength(25)
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -233,7 +231,7 @@ namespace InsuranceCompany.Storage.Migrations
                             Lastname = "Иванов",
                             Name = "Александр Сергеевич Иванов",
                             SecondName = "Сергеевич",
-                            Type = "Юридическое лицо"
+                            Type = 1
                         },
                         new
                         {
@@ -244,7 +242,7 @@ namespace InsuranceCompany.Storage.Migrations
                             Lastname = "Петрова",
                             Name = "Мария Викторовна Петрова",
                             SecondName = "Викторовна",
-                            Type = "Физическое лицо"
+                            Type = 0
                         });
                 });
 

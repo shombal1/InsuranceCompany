@@ -219,10 +219,9 @@ namespace InsuranceCompany.Storage.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<string>("Type")
+                    b.Property<int>("Type")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

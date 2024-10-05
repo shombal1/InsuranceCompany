@@ -2,7 +2,7 @@
 using System.Text.Json;
 using InsuranceCompany.Domain.Models.Items;
 using InsuranceCompany.Storage.Entities;
-using InsuranceCompany.Storage.Enums;
+using InsuranceCompany.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 
 namespace InsuranceCompany.Storage;
@@ -88,7 +88,7 @@ public class InsuranceCompanyDbContext(DbContextOptions<InsuranceCompanyDbContex
                     Description = "количество дней в путешествие"
                 }),
                 ProductId = product1.Id,
-                Type = ProductMetafieldType.InputBox
+                Type = Enums.ProductMetafieldType.InputBox
             },
             new()
             {
@@ -101,7 +101,7 @@ public class InsuranceCompanyDbContext(DbContextOptions<InsuranceCompanyDbContex
                     Description = "Период отдыха",
                     Values = [new("высокий", 1.2), new ComboBoxValue("низкий", 0.9)]
                 }),
-                Type = ProductMetafieldType.ComboBox,
+                Type = Enums.ProductMetafieldType.ComboBox,
                 ProductId = product1.Id
             },
             new()
@@ -115,7 +115,7 @@ public class InsuranceCompanyDbContext(DbContextOptions<InsuranceCompanyDbContex
                     Description = "Напрвление полета",
                     Values = [new("Европа", 1), new ComboBoxValue("Турций", 1.2), new ComboBoxValue("ОАЭ", 1.1)]
                 }),
-                Type = ProductMetafieldType.ComboBox,
+                Type = Enums.ProductMetafieldType.ComboBox,
                 ProductId = product1.Id
             }
         ]);

@@ -18,8 +18,8 @@ namespace InsuranceCompany.Storage.Migrations
                 columns: new[] { "ID", "DateBirth", "FirstName", "INN", "Lastname", "Name", "SecondName", "Type" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1990, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Александр", 1234567890, "Иванов", "Александр Сергеевич Иванов", "Сергеевич", "Юридическое лицо" },
-                    { 2, new DateTime(1985, 11, 20, 0, 0, 0, 0, DateTimeKind.Utc), "Мария", 1876543210, "Петрова", "Мария Викторовна Петрова", "Викторовна", "Физическое лицо" }
+                    { 1, new DateTime(1990, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Александр", 1234567890, "Иванов", "Александр Сергеевич Иванов", "Сергеевич", 1 },
+                    { 2, new DateTime(1985, 11, 20, 0, 0, 0, 0, DateTimeKind.Utc), "Мария", 1876543210, "Петрова", "Мария Викторовна Петрова", "Викторовна", 0 }
                 });
 
             migrationBuilder.InsertData(

@@ -16,8 +16,7 @@ public class ContractConfiguration : IEntityTypeConfiguration<ContractEntity>
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Status)
-            .HasConversion<int>()
-            .HasMaxLength(25);
+            .HasConversion<int>();
 
         builder.HasOne(c => c.Agent)
             .WithMany(a => a.Contracts)
