@@ -74,8 +74,8 @@
                         <tr>
                             <td><textarea class="form__table-input" name="risk-key" id="risk-key" disabled data-id="@risk.Key.Substring(1)">@risk.Key</textarea></td>
                             <td><textarea class="form__table-input" name="risk-description" id="risk-description" required>@risk.Name</textarea></td>
-                            <td><input class="form__table-input" type="number" name="start-tarif" id="start-tarif" required value="@risk.Premium"></td>
-                            <td><input class="form__table-input" type="number" name="basic compensation" id="basic compensation" value="@risk.InsuranceSum"></td>
+                            <td><input class="form__table-input" type="number" name="start-tarif" id="start-tarif" required value="@((double)risk.Premium)"></td>
+                            <td><input class="form__table-input" type="number" name="basic compensation" id="basic compensation" value="@((double)risk.InsuranceSum)"></td>
                             <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input" id="can-change" checked="@risk.Active"></td>
                         </tr>
                     }
