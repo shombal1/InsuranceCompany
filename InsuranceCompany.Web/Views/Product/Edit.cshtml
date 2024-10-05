@@ -91,61 +91,63 @@
             <span class="form__metadata-span">Метаданные</span>
             <button class="form__metadata-button" type="button" id="openModalButton">Добавить</button>
             <div class="form__metadata-tables">
-                @foreach (var item in Model.Items) {
-                    @switch (item) {
-                        case ItemComboBoxDto comboBox:
-                            var id_table = comboBox.Key.Substring(1, comboBox.Key.Length - 2);
-                            bool isFirstIteration = true;
-                            <div class="table-wrapper table-wrapper-type-select" id="metadata-table-@id_table" data-id="@id_table">
-                                <table class="create-table">
-                                    <thead>
-                                        <tr>
-                                            <th><label for="metadata-key">KEY</label></th>
-                                            <th><label for="metadata-description">Описание</label></th>
-                                            <th><label for="metadata-meaning">Значение</label></th>
-                                            <th><label for="metadata-value">value</label></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="@id_table-body" data-id="@id_table" data-key-prefix="S">
-                                        @foreach (var value in comboBox.Values) {
-                                            <tr class="row-table-with-buttons">
-                                                <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-key" disabled>@(isFirstIteration ? comboBox.Key : "")</textarea></td>
-                                                <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-description" @(isFirstIteration ? "required" : "disabled")>@(isFirstIteration ? comboBox.Description : "")</textarea></td>
-                                                <td><input class="form__table-input" name="metadata-meaning" required value="@value.Name"></td>
-                                                <td><input class="form__table-input" name="metadata-value" required value="@value.Value"></td>
+                @if (Model.Items.Any()) {
+                    @foreach (var item in Model.Items) {
+                        @switch (item) {
+                            case ItemComboBoxDto comboBox:
+                                var id_table = comboBox.Key.Substring(1, comboBox.Key.Length - 2);
+                                bool isFirstIteration = true;
+                                <div class="table-wrapper table-wrapper-type-select" id="metadata-table-@id_table" data-id="@id_table">
+                                    <table class="create-table">
+                                        <thead>
+                                            <tr>
+                                                <th><label for="metadata-key">KEY</label></th>
+                                                <th><label for="metadata-description">Описание</label></th>
+                                                <th><label for="metadata-meaning">Значение</label></th>
+                                                <th><label for="metadata-value">value</label></th>
                                             </tr>
-                                            isFirstIteration = false;
-                                        }
-                                    </tbody>
-                                </table>
-                                <div class="buttons-under-table__container">
-                                    <button class="form__add-row" data-table-id="@id_table" type="button">Добавить</button>
-                                    <button class="form__remove-row" data-table-id="@id_table" type="button">Удалить</button>
+                                        </thead>
+                                        <tbody id="@id_table-body" data-id="@id_table" data-key-prefix="S">
+                                            @foreach (var value in comboBox.Values) {
+                                                <tr class="row-table-with-buttons">
+                                                    <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-key" disabled>@(isFirstIteration ? comboBox.Key : "")</textarea></td>
+                                                    <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-description" @(isFirstIteration ? "required" : "disabled")>@(isFirstIteration ? comboBox.Description : "")</textarea></td>
+                                                    <td><input class="form__table-input" name="metadata-meaning" required value="@value.Name"></td>
+                                                    <td><input class="form__table-input" name="metadata-value" required value="@value.Value"></td>
+                                                </tr>
+                                                isFirstIteration = false;
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <div class="buttons-under-table__container">
+                                        <button class="form__add-row" data-table-id="@id_table" type="button">Добавить</button>
+                                        <button class="form__remove-row" data-table-id="@id_table" type="button">Удалить</button>
+                                    </div>
                                 </div>
-                            </div>
-                            break;
-                        case ItemInputBoxDto inputBox:
-                            var id_table_i = inputBox.Key.Substring(1, inputBox.Key.Length - 2);
-                            <div class="table-wrapper table-wrapper-type-input" id="metadata-table-@id_table_i" data-id="@id_table_i">
-                                <table class="create-table">
-                                    <thead>
-                                        <tr>
-                                            <th><label for="metadata-key">KEY</label></th>
-                                            <th><label for="metadata-description">Описание</label></th>                                                
-                                        </tr>
-                                    </thead>
-                                    <tbody id="@id_table_i-body" data-id="@id_table_i" data-key-prefix="I">
-                                        <tr class="row-table-with-buttons">
-                                            <td><textarea class="form__table-input" name="metadata-key" disabled>@inputBox.Key</textarea></td>
-                                            <td><textarea class="form__table-input" name="metadata-description" required>@inputBox.Description</textarea></td>                                                
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="buttons-under-table__container">                                        
-                                    <button class="form__remove-row" data-table-id="@id_table_i" type="button">Удалить</button>
+                                break;
+                            case ItemInputBoxDto inputBox:
+                                var id_table_i = inputBox.Key.Substring(1, inputBox.Key.Length - 2);
+                                <div class="table-wrapper table-wrapper-type-input" id="metadata-table-@id_table_i" data-id="@id_table_i">
+                                    <table class="create-table">
+                                        <thead>
+                                            <tr>
+                                                <th><label for="metadata-key">KEY</label></th>
+                                                <th><label for="metadata-description">Описание</label></th>                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody id="@id_table_i-body" data-id="@id_table_i" data-key-prefix="I">
+                                            <tr class="row-table-with-buttons">
+                                                <td><textarea class="form__table-input" name="metadata-key" disabled>@inputBox.Key</textarea></td>
+                                                <td><textarea class="form__table-input" name="metadata-description" required>@inputBox.Description</textarea></td>                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="buttons-under-table__container">                                        
+                                        <button class="form__remove-row" data-table-id="@id_table_i" type="button">Удалить</button>
+                                    </div>
                                 </div>
-                            </div>
-                            break;
+                                break;
+                        }
                     }
                 }
             </div>

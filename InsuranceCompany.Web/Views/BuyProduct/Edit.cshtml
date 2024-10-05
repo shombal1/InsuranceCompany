@@ -3,6 +3,113 @@
 @{
     ViewData["Title"] = "Продажа страхового продукта";
 }
-<pre>
-    @Html.Raw(Json.Serialize(Model))
-</pre>
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/buy_product/calculate.css" asp-append-version="true" />
+}
+
+<div class="main__inner">
+    <div class="main__commencement">
+        <h2 class="main__title">@ViewData["Title"]</h2>
+    </div>
+    <div class="main__commencement--under-line"></div>
+</div>
+
+<div class="main-card-inner">
+    <div class="calc-inner">
+        <div class="calc__title">
+            <h2>@Model.Name</h2>
+        </div>
+        <div class="calc__descr">
+            <p>@Model.Description</p>
+        </div>
+        <div class="calc__risk-container">
+            <h2 class="risk-container__title">Риски</h2>
+            <div class="risk__elems">
+                @foreach (var risk in Model.Risks) {
+                    <div class="risk__elem" data-key="@risk.Key" data-tarif="@risk.Premium" data-compensation="@risk.InsuranceSum" data-changeable="@(risk.Active ? 0 : 1)" >
+                        <div class="calc__risk-title">
+                            <div class="elem__checkbox">
+                                <input class="check-risk @(Model.Risks.Count()==1 ? "check-risk-hidden" : "")" type="checkbox" name="checkbox-risk-@risk.Key" checked>
+                            </div>
+                            <div class="elem__title">
+                                <label for="checkbox-risk-@risk.Key">@risk.Name</label>
+                            </div>
+                        </div>
+                        @if (risk.InsuranceSum > 0) {
+                            <div class="calc__risk-compensation">
+                                <div class="input__label">
+                                    <label for="input-risk-@risk.Key">компенсация</label>
+                                </div>
+                                @if (risk.Active) {
+                                    <div class="input__input-box"><p>@risk.InsuranceSum</p></div>
+                                } else {
+                                    <input class="calc__input" type="number" name="input-risk-@risk.Key" placeholder="от @risk.InsuranceSum" required>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        @if (Model.Items.Any()) {
+            <div class="calc__details-container">
+                <h2 class="details-container__title">Детали</h2>
+                <div class="details__elems">
+                    @foreach (var item in Model.Items) {
+                        @switch (item) {
+                            case ItemComboBoxDto comboBox:
+                                <div class="details__elem" data-key="@comboBox.Key" data-type="select">
+                                    <div class="select__label">
+                                        <label for="select-meta-@comboBox.Key">@comboBox.Description</label>
+                                    </div>
+                                    <div class="input__select-box">
+                                        <select class="calc__select" name="select-meta-@comboBox.Key">
+                                            @foreach (var value in comboBox.Values) {
+                                                <option value="@value.Value">@value.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                break;
+                            case ItemInputBoxDto inputBox:
+                                <div class="details__elem" data-key="@inputBox.Key" data-type="input">
+                                    <div class="input__label"><label for="input-meta-@inputBox.Key">@inputBox.Description</label></div>
+                                    <div class="input__input-box">
+                                        <input class="calc__input" type="text" name="input-meta-@inputBox.Key" required>
+                                    </div>
+                                </div>
+                                break;
+                        }
+                    }
+                </div>
+            </div>
+        }
+        <div class="insurance-premium">
+            <p>Страховая премия:</p>
+            <div class="premium__value"><p class="for-js-premium__value">1800</p></div>
+        </div>
+        <div class="contract">
+
+            <div class="contract__select-agent">
+                <label for="select-agent">Агент</label>
+                <select name="select-agent" id="select-agent">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+            </div>
+
+            <div class="insurance-commission">
+                <p>Страховая комиссия:</p>
+                <div class="commission__value for-js-commission__value">100</div>
+            </div>
+            <div class="initials">
+                <label for="initials-person">ФИО покупателя</label>
+                <input class="calc__input" type="text" name="initials-person">
+            </div>
+        </div>
+        <div class="button-submit-container">
+            <button class="button__submit button--submit-draft" type="submit">Сохранить как черновик</button>
+            <button class="button__submit button--submit" type="submit">Активный договор</button>
+        </div>
+    </div>
+</div>
