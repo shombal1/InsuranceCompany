@@ -1,5 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Главная";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/home/home.css" asp-append-version="true" />
+    
+}
 
-<h1>Всем привет</h1>
+<div class="index-container">
+    <a href="/product" class="index__button button-black" type="button">Начать работу</a>
+    <div class="index__image-container">
+        <img class="index__image" src="~/image/team-photo.png" alt="Фотография команды">
+        <h2 class="index__image-props">Команда Лидеры</h2>
+    </div>
+</div>

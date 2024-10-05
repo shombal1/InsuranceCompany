@@ -27,10 +27,9 @@ namespace InsuranceCompany.Storage.Migrations
                 columns: new[] { "ID", "Name" },
                 values: new object[,]
                 {
-                    { 1, "КАСКО" },
-                    { 2, "ОСАГО" },
-                    { 3, "Страхование путешественников" },
-                    { 4, "Страхование от несчастных случаев" }
+                    { 1, "Авто" },
+                    { 2, "Дом" },
+                    { 3, "Путешествие" }
                 });
 
             migrationBuilder.InsertData(
@@ -47,26 +46,34 @@ namespace InsuranceCompany.Storage.Migrations
             migrationBuilder.InsertData(
                 table: "PRODUCTS",
                 columns: new[] { "ID", "Active", "Description", "Formula", "LOBId", "Name" },
-                values: new object[] { 1, true, "Гибкая система выбора нужных вам рисков и на требуемый срок", "(P1+P2*M2S+P3*M3S)*M1I", 3, "отпуск вашй мечты" });
+                values: new object[,] {
+                    { 1, true, "Гибкая система выбора нужных вам рисков и на требуемый срок", "(P1+P2*M2S+P3*M3S)*M1I", 3, "Отпуск вашей мечты" },
+                    { 2, true, "Страхование автогражданской ответственности. Страховой полис ОСАГО покрывает ущерб, нанесенный третьим лицам до 500000 руб.", "P1*M1S*M2I*M3S", 1, "ОСАГО" }
+                }
+            );
 
             migrationBuilder.InsertData(
                 table: "PRODUCT_METAFIELDS",
-                columns: new[] { "ID", "JsonData", "ProductId", "Type" },
+                columns: new[] { "ID", "Type", "JsonData", "ProductId"},
                 values: new object[,]
                 {
-                    { 1, "{\"Type\":1,\"Index\":1,\"Key\":\"M1I\",\"Description\":\"\\u043A\\u043E\\u043B\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043E \\u0434\\u043D\\u0435\\u0439 \\u0432 \\u043F\\u0443\\u0442\\u0435\\u0448\\u0435\\u0441\\u0442\\u0432\\u0438\\u0435\"}", 1, 1 },
-                    { 2, "{\"Type\":1,\"Values\":[{\"Name\":\"\\u0432\\u044B\\u0441\\u043E\\u043A\\u0438\\u0439\",\"Value\":1.2},{\"Name\":\"\\u043D\\u0438\\u0437\\u043A\\u0438\\u0439\",\"Value\":0.9}],\"Index\":2,\"Key\":\"M2S\",\"Description\":\"\\u041F\\u0435\\u0440\\u0438\\u043E\\u0434 \\u043E\\u0442\\u0434\\u044B\\u0445\\u0430\"}", 1, 0 },
-                    { 3, "{\"Type\":1,\"Values\":[{\"Name\":\"\\u0415\\u0432\\u0440\\u043E\\u043F\\u0430\",\"Value\":1},{\"Name\":\"\\u0422\\u0443\\u0440\\u0446\\u0438\\u0439\",\"Value\":1.2},{\"Name\":\"\\u041E\\u0410\\u042D\",\"Value\":1.1}],\"Index\":3,\"Key\":\"M3S\",\"Description\":\"\\u041D\\u0430\\u043F\\u0440\\u0432\\u043B\\u0435\\u043D\\u0438\\u0435 \\u043F\\u043E\\u043B\\u0435\\u0442\\u0430\"}", 1, 0 }
+                    {1, 1, "{\"Type\":1,\"Index\":1,\"Key\":\"M1I\",\"Description\":\"Количество дней в путешествии\"}", 1}, 
+                    {2, 0, "{\"Type\":0,\"Values\":[{\"Name\":\"высокий\",\"Value\":1.2},{\"Name\":\"низкий\",\"Value\":0.9}],\"Index\":2,\"Key\":\"M2S\",\"Description\":\"Период отдыха\"}", 1}, 
+                    {3, 0, "{\"Type\":0,\"Values\":[{\"Name\":\"Европа\",\"Value\":1},{\"Name\":\"Турция\",\"Value\":1.2},{\"Name\":\"ОАЭ\",\"Value\":1.1}],\"Index\":3,\"Key\":\"M3S\",\"Description\":\"Направление полета\"}", 1}, 
+                    {4, 0, "{\"Type\":0,\"Values\":[{\"Name\":\"16-21 / 1\",\"Value\":1.92},{\"Name\":\"22-24 / 1\",\"Value\":1.72},{\"Name\":\"22-24 / 2\",\"Value\":1.71}],\"Index\":1,\"Key\":\"M1S\",\"Description\":\"Возраст и стаж\"}", 2}, 
+                    {5, 1, "{\"Type\":1,\"Index\":2,\"Key\":\"M2I\",\"Description\":\"Коэффициент «бонус-малус»\"}", 2}, 
+                    {6, 0, "{\"Type\":0,\"Values\":[{\"Name\":\"село\",\"Value\":0.76},{\"Name\":\"город\",\"Value\":1},{\"Name\":\"мегаполис\",\"Value\":1.8}],\"Index\":3,\"Key\":\"M3S\",\"Description\":\"Место использования\"}", 2}
                 });
 
             migrationBuilder.InsertData(
                 table: "PRODUCT_RISKS",
-                columns: new[] { "ID", "Active", "InsuranceSum", "Key", "Name", "Premium", "ProductId" },
+                columns: new[] { "ID", "Name", "Premium", "InsuranceSum", "ProductId", "Active", "Key" },
                 values: new object[,]
                 {
-                    { 1, true, 500000m, "P1", "Несчастный случай", 5000m, 1 },
-                    { 2, false, 10000m, "P2", "Утрата багажа", 1000m, 1 },
-                    { 3, false, 20000m, "P3", "Задержка рейса", 2000m, 1 }
+                    {1, "Несчастный случай", 5000m, 500000m, 1, true, "P1"}, 
+                    {2, "Утрата багажа", 1000m, 10000m, 1, false, "P2"}, 
+                    {3, "Задержка рейса", 2000m, 20000m, 1, false, "P3"}, 
+                    {4, "Наступление страхового случая", 5000m, 0m, 2, true, "P1"}
                 });
         }
 
