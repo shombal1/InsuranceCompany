@@ -2,7 +2,27 @@
 @{
     ViewData["Title"] = "Страховой продукт-продажа";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/buy_product/sell.css" asp-append-version="true" />
+}
 
-<pre>
-    @Html.Raw(Json.Serialize(Model))
-</pre>
+<div class="main__inner">
+    <div class="main__commencement">
+        <h2 class="main__title">@ViewData["Title"]</h2>
+    </div>
+    <div class="main__commencement--under-line"></div>
+</div>
+
+<div class="product-cards__inner cards--active">
+    @if (Model.Products.Any()) {
+        @foreach (var product in Model.Products) {
+            <a class="active-product" data-id="@product.Id" href="/buy-product/edit/@product.Id">
+                <img class="active-product-image" src="/image/products/@(product.Id % 2 == 1 ? "travell.png" : "osago.png")" alt="Картинка продукта">
+                <div class="active-product__content">
+                    <h2 class="active-product__title">@product.Name</h2>
+                    <p class="active-product__descr">@product.Description</p>
+                </div>
+            </a>
+        }
+    }
+</div>
