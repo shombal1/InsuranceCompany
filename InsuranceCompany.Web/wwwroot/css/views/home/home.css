@@ -1,0 +1,60 @@
+.index-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: 100vh;
+}
+
+.index__image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+.index__image {
+    margin-bottom: 100px;
+    max-width: 85%;
+}
+
+.index__image-props {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 76.8px */
+    letter-spacing: -1.28px;
+    padding-top: 44px;
+}
+
+.index__title {
+    color: #000;
+    text-align: center;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: Inter;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 76.8px */
+    letter-spacing: -1.28px;
+}
+
+.index__button.button-black {
+    text-align: center;
+    max-width: max-content;
+    max-height: max-content;
+    margin-top: 82px;
+    margin-bottom: 44px;
+    font-size: 64px;
+    padding: 35px 136px 35px 137px;
+}
