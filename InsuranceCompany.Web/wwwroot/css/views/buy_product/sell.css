@@ -1,13 +1,16 @@
 .active-product {
-    max-height: max-content;
     border-radius: 24px;
     border: 2px solid #D9D9D9;
     background: #FAFAF5;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .active-product__content {
     margin: 13px 25px;
+    flex-grow: 1;
 }
 
 .active-product__title {
@@ -44,7 +47,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 90px;
     margin-bottom: 10vw;
-    align-items: center;
+    align-items: stretch;
 }
 
 @media (max-width: 1400px) {

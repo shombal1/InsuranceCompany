@@ -25,12 +25,12 @@
     <form class="form form--create-product">
         <div class="form__input-container">
             <label class="form__label" for="product-title">Название</label>
-            <input class="form__input form__input--title" type="text" name="product-title" required>
+            <input class="form__input form__input--title" type="text" name="product-title" id="product-title" required>
         </div>
     
         <div class="form__input-container">
             <label class="form__label" for="product-descr">Описание</label>
-            <textarea class="form__input form__input--descr" name="product-descr" required></textarea>
+            <textarea class="form__input form__input--descr" name="product-descr" id="product-descr" required></textarea>
         </div>
     
         <div class="form__select-container">
@@ -62,7 +62,7 @@
     
         <div class="form__risks-container table-wrapper">
             <label class="form__label" for="risks-table">Риски</label>
-            <table class="create-table">
+            <table class="create-table" id="risks-table">
                 <thead>
                     <tr>
                         <th><label for="risk-key">KEY</label></th>
@@ -75,11 +75,11 @@
                 
                 <tbody id="risks-body">
                     <tr>
-                        <td><textarea class="form__table-input" name="risk-key" disabled data-id="1">Р1</textarea></td>
-                        <td><textarea class="form__table-input" name="risk-description" required></textarea></td>
-                        <td><input class="form__table-input" type="number" name="start-tarif" required></td>
-                        <td><input class="form__table-input" type="number" name="basic compensation"></td>
-                        <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input"></td>
+                        <td><textarea class="form__table-input" name="risk-key" id="risk-key" disabled data-id="1">Р1</textarea></td>
+                        <td><textarea class="form__table-input" name="risk-description" id="risk-key" required></textarea></td>
+                        <td><input class="form__table-input" type="number" name="start-tarif" id="start-tarif" required></td>
+                        <td><input class="form__table-input" type="number" name="basic compensation" id="basic compensation"></td>
+                        <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input" id="can-change"></td>
                     </tr>
                 </tbody>
             </table>
@@ -119,7 +119,7 @@
     
         <div class="form__input-container">
             <label class="form__label" for="formula">Формула</label>
-            <input class="form__input form__input--formula" type="text" name="formula" required>
+            <input class="form__input form__input--formula" type="text" name="formula" id="formula" required>
         </div>
         
         @* <div class="reward-container">

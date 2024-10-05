@@ -1,71 +1,182 @@
-.calc__risk-title, .calc__risk-compensation, .calc__risk-compensation p, .check-risk, .compensation-input,
+/* Базовые настройки для элементов */
+.calc__risk-title, .calc__risk-compensation, .check-risk, .compensation-input,
 .input__label, .input__input-box, .elem__checkbox, .elem__title,
 .select__label, .input__select-box {
     display: inline-block;
+    font-size: 25px; /* Увеличение размера шрифта */
 }
 
-.risk__elem, .insurance-premium, .insurance-commission {
+.risk__elem, .insurance-premium, .insurance-commission, .details__elem {
     display: flex;
+    align-items: center; /* Выровнять элементы по центру по вертикали */
+    gap: 10px; /* Небольшой отступ между элементами */
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Оформление */
+    font-size: 25px; /* Увеличение размера шрифта */
 }
 
+.risk__elem:last-child, .details__elem:last-child {
+    border-bottom: none;
+}
+
+/* Стиль для заголовков */
 .calc__risk-title {
-    margin-right: 15px;
+    margin-right: 10px;
+    font-size: 32px; /* Увеличение размера шрифта */
 }
 
-.calc__input, .calc__select{
-    border: 1px solid black;
-    border-radius: 5px;
-    padding-left: 5px;
-    margin-left: 10px;
+/* Поле ввода для компенсации */
+.calc__risk-compensation {
+    margin: 0;
+    font-size: 25px; /* Увеличение размера шрифта */
 }
 
-.calc__input {
-    max-width: 50%;
+.calc__risk-compensation input, .input__input-box input, .input__select-box select {
+    /* width: 100%; */
+    padding: 10px; /* Увеличен padding */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 5px; /* Уменьшенный отступ */
 }
 
-.risk__elem, .details__elem {
-    margin-top: 5px;
-}
-
-.check-risk-hidden {
-    display: none;
-}
-
+/* Общие стили для блоков с заголовком */
 .details-container__title, .risk-container__title {
     font-weight: 700;
+    font-size: 30px; /* Увеличение размера шрифта */
 }
 
 .calc__details-container, .calc__risk-container {
     margin-bottom: 20px;
 }
 
-/* переташил сюда */
-.button-submit-container {
-    display: flex;
-    justify-content: end;
-    gap: 33px;
-    margin-top: 100px;
+/* Основной заголовок */
+.main__title {
+    text-align: center;
+    font-size: 40px; /* Увеличение размера шрифта */
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
-.button--submit, .button--submit-draft {
-    border-radius: 8px;
+/* Основной контейнер калькулятора */
+.calc-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стиль заголовков секций */
+.calc__title h2 {
+    font-size: 30px; /* Увеличение размера шрифта */
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.calc__descr p {
+    font-size: 18px; /* Увеличение размера шрифта */
+    color: #555;
+}
+
+/* Стили для input и select */
+.calc__input, .calc__select {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-left: 5px;
+    margin-left: 10px;
+    font-size: 18px; /* Увеличение размера шрифта */
+    padding: 12px; /* Увеличен padding */
+}
+
+/* Значения страховой премии и комиссии */
+.premium__value p, .commission__value {
+    font-size: 20px; /* Увеличение размера шрифта */
+    font-weight: bold;
+    color: #444;
+}
+
+.contract {
+    padding-left: 10px;
+}
+
+.contract .insurance-commission {
+    padding-left: 0;
+}
+
+.insurance-commission {
+    margin-bottom: 10px;
+}
+
+/* Контейнеры для агентской комиссии и данных */
+.contract__select-agent, .initials {
+    margin-bottom: 15px;
+    font-size: 25px; /* Увеличение размера шрифта */
+}
+
+/* Кнопки */
+.button-submit-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.button__submit {
+    font-size: 20px; /* Увеличение размера шрифта */
+    padding: 14px 22px; /* Увеличение padding */
     border: none;
-    color: white;
-    max-height: 63px;
-    font-size: 16px;
-    min-width: 162px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button__submit:hover {
+    background-color: #f0f0f0;
 }
 
 .button--submit {
-    background: #F6893A;
-    padding: 21px 32px 20px 33px;
+    background-color: #007bff;
+    color: #fff;
 }
 
-.button--cancel {
-    padding: 21.5px 51px 20.5px 51px;
+.button--submit:hover {
+    background-color: #0056b3;
 }
 
 .button--submit-draft {
-    background: #A7BB97;
-    padding: 10px 22px;
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.button--submit-draft:hover {
+    background-color: #5a6268;
+}
+
+.button-black {
+    background-color: #000;
+    color: #fff;
+}
+
+.button-black:hover {
+    background-color: #333;
+}
+
+button {
+    margin: 10px 5px;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .calc__input, .calc__select {
+        width: 100%;
+    }
+
+    .button__submit {
+        font-size: 18px; /* Уменьшение размера шрифта на мобильных */
+    }
+
+    .calc-inner {
+        padding: 15px;
+    }
 }

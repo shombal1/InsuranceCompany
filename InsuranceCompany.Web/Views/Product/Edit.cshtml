@@ -22,12 +22,12 @@
     <form class="form form--create-product">
         <div class="form__input-container">
             <label class="form__label" for="product-title">Название</label>
-            <input class="form__input form__input--title" type="text" name="product-title" required value="@Model.Name">
+            <input class="form__input form__input--title" type="text" name="product-title" id="product-title" required value="@Model.Name">
         </div>
     
         <div class="form__input-container">
             <label class="form__label" for="product-descr">Описание</label>
-            <textarea class="form__input form__input--descr" name="product-descr" required>@Model.Description</textarea>
+            <textarea class="form__input form__input--descr" name="product-descr" id="product-descr" required>@Model.Description</textarea>
         </div>
     
         <div class="form__select-container">
@@ -72,11 +72,11 @@
                 <tbody id="risks-body">
                     @foreach (var risk in Model.Risks){
                         <tr>
-                            <td><textarea class="form__table-input" name="risk-key" disabled data-id="@risk.Key.Substring(1)">@risk.Key</textarea></td>
-                            <td><textarea class="form__table-input" name="risk-description" required>@risk.Name</textarea></td>
-                            <td><input class="form__table-input" type="number" name="start-tarif" required value="@risk.Premium"></td>
-                            <td><input class="form__table-input" type="number" name="basic compensation" value="@risk.InsuranceSum"></td>
-                            <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input" checked="@risk.Active"></td>
+                            <td><textarea class="form__table-input" name="risk-key" id="risk-key" disabled data-id="@risk.Key.Substring(1)">@risk.Key</textarea></td>
+                            <td><textarea class="form__table-input" name="risk-description" id="risk-description" required>@risk.Name</textarea></td>
+                            <td><input class="form__table-input" type="number" name="start-tarif" id="start-tarif" required value="@risk.Premium"></td>
+                            <td><input class="form__table-input" type="number" name="basic compensation" id="basic compensation" value="@risk.InsuranceSum"></td>
+                            <td><input type="checkbox" value="can-change" name="can-change" class="form__table-input" id="can-change" checked="@risk.Active"></td>
                         </tr>
                     }
                 </tbody>
@@ -112,8 +112,8 @@
                                                 <tr class="row-table-with-buttons">
                                                     <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-key" disabled>@(isFirstIteration ? comboBox.Key : "")</textarea></td>
                                                     <td style="@(isFirstIteration ? "" : "background: cornsilk;")"><textarea class="form__table-input" name="metadata-description" @(isFirstIteration ? "required" : "disabled")>@(isFirstIteration ? comboBox.Description : "")</textarea></td>
-                                                    <td><input class="form__table-input" name="metadata-meaning" required value="@value.Name"></td>
-                                                    <td><input class="form__table-input" name="metadata-value" required value="@value.Value"></td>
+                                                    <td><input class="form__table-input" name="metadata-meaning" id="metadata-meaning" required value="@value.Name"></td>
+                                                    <td><input class="form__table-input" name="metadata-value" id="metadata-value" required value="@value.Value"></td>
                                                 </tr>
                                                 isFirstIteration = false;
                                             }
@@ -137,8 +137,8 @@
                                         </thead>
                                         <tbody id="@id_table_i-body" data-id="@id_table_i" data-key-prefix="I">
                                             <tr class="row-table-with-buttons">
-                                                <td><textarea class="form__table-input" name="metadata-key" disabled>@inputBox.Key</textarea></td>
-                                                <td><textarea class="form__table-input" name="metadata-description" required>@inputBox.Description</textarea></td>                                                
+                                                <td><textarea class="form__table-input" name="metadata-key" id="metadata-key" disabled>@inputBox.Key</textarea></td>
+                                                <td><textarea class="form__table-input" name="metadata-description" id="metadata-description" required>@inputBox.Description</textarea></td>                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -177,7 +177,7 @@
     
         <div class="form__input-container">
             <label class="form__label" for="formula">Формула</label>
-            <input class="form__input form__input--formula" type="text" name="formula" required value="@Model.Formula">
+            <input class="form__input form__input--formula" type="text" name="formula" id="formula" required value="@Model.Formula">
         </div>
         
         <div class="button-submit-container">
