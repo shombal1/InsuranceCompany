@@ -1,0 +1,78 @@
+.contracts-cards__inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.contracts-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border: 2px solid #E6E6E6;
+    border-radius: 16px;
+    background-color: #FAFAF5;
+    height: 100%;
+    max-height: 240px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    cursor: pointer;
+}
+
+.contract-card__title,
+.contract-card__product-title,
+.contract-card__product-descr {
+    font-family: 'Inter', sans-serif;
+    color: #000;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.contract-card__title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.contract-card__product-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.contract-card__product-descr {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contract-card__status {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status--active {
+    background-color: #4CAF50;
+}
+
+.status--deactive {
+    background-color: #B0B0B0;
+}

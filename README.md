@@ -32,3 +32,11 @@ cd InsuranceCompany.Web
 6) Запускаем дев сервер и смотрим сайт в браузере (откроется автоматически)
 
 dotnet watch run
+
+
+-----------------------------------------------------------------------------------
+видео к презентации команда лидеры
+https://disk.yandex.ru/d/GdbefLTKU59vIQ
+
+ОНЛАЙН-ХАКАТОН КОД СОГЛАСИЯ
+https://codenrock.com/contests/soglasiecodehackathon#/tasks/2058/5989

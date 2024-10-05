@@ -8,9 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace InsuranceCompany.Web.Controllers;
 
 [Controller]
-[Route("[controller]")]
+[Route("order")]
 public class ContractController(IMediator mediator, IMapper mapper, ILogger<HomeController> logger) : Controller
 {
+    [HttpGet]
+    public async Task<IActionResult> Index() // url: GET /buy-product/
+    {
+        return View();
+    }
+
     [HttpGet]
     [Route("/[controller]/[action]")]
     public async Task<IActionResult> Get([FromQuery] int id)
