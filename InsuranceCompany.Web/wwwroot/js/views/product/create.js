@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const risk = {
                 Key: row.querySelector('textarea[name="risk-key"]').value,
                 Name: row.querySelector('textarea[name="risk-description"]').value,
-                Premium: Number(row.querySelector('input[name="start-tarif"]').value.replace(',', '.')),
-                InsuranceSum: Number(row.querySelector('input[name="basic compensation"]').value.replace(',', '.')),
+                Premium: parseFloat(row.querySelector('input[name="start-tarif"]').value.replace(',', '.')),
+                InsuranceSum: parseFloat(row.querySelector('input[name="basic compensation"]').value.replace(',', '.')),
                 Active: row.querySelector('input[name="can-change"]').checked
             };
             formData.Risks.push(risk);
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         };
                         const value = {
                             Name: row.querySelector('input[name="metadata-meaning"]').value,
-                            Value: Number(row.querySelector('input[name="metadata-value"]').value.replace(',', '.'))
+                            Value: parseFloat(row.querySelector('input[name="metadata-value"]').value.replace(',', '.'))
                         };
                         metadata.Values.push(value);
                     };
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         riskKeyIndex++; // Увеличиваем индекс для следующей строки
         newRow.classList.add('risk-row');
         newRow.innerHTML = `
-            <td><textarea class="form__table-input" name="risk-key" disabled data-id="${riskKeyIndex}">Р${riskKeyIndex}</textarea></td>
+            <td><textarea class="form__table-input" name="risk-key" disabled data-id="${riskKeyIndex}">P${riskKeyIndex}</textarea></td>
             <td><textarea class="form__table-input" name="risk-description" required></textarea></td>
             <td><input class="form__table-input" type="number" name="start-tarif" required></td>
             <td><input class="form__table-input" type="number" name="basic compensation"></td>

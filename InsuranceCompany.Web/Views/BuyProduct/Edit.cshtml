@@ -6,6 +6,9 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/views/buy_product/calculate.css" asp-append-version="true" />
 }
+@section Scripts {
+    <script src="~/js/views/buy_product/calculate.js"></script>
+}
 
 <div class="main__inner">
     <div class="main__commencement">
@@ -25,11 +28,25 @@
         <div class="calc__risk-container">
             <h2 class="risk-container__title">Риски</h2>
             <div class="risk__elems">
+                <script>
+                    const div = document.createElement('div');
+                    div.innerHTML = "@Model.Formula";
+                    const state = { calculate: {formula: div.textContent}, key: {} };
+                </script>
                 @foreach (var risk in Model.Risks) {
-                    <div class="risk__elem" data-key="@risk.Key" data-tarif="@risk.Premium" data-compensation="@risk.InsuranceSum" data-changeable="@(risk.Active ? 0 : 1)" >
+                    <script>
+                        state.calculate.@risk.Key = {
+                            tarif: parseFloat('@risk.Premium'.replace(',', '.')),
+                            compensation: parseFloat('@risk.InsuranceSum'.replace(',', '.')),
+                            changeable: @(risk.Active ? 0 : 1)
+                        };
+                        state.key.@risk.Key = parseFloat('@risk.Premium'.replace(',', '.'));
+                        state.key["@risk.Key-old"] = parseFloat('@risk.Premium'.replace(',', '.'));
+                    </script>
+                    <div class="risk__elem">
                         <div class="calc__risk-title">
                             <div class="elem__checkbox">
-                                <input class="check-risk @(Model.Risks.Count()==1 ? "check-risk-hidden" : "")" type="checkbox" name="checkbox-risk-@risk.Key" checked>
+                                <input class="check-risk @(Model.Risks.Count()==1 ? "check-risk-hidden" : "")" type="checkbox" name="checkbox-risk-@risk.Key" id="checkbox-risk-@risk.Key" checked data-key="@risk.Key" data-type="checkbox-risk">
                             </div>
                             <div class="elem__title">
                                 <label for="checkbox-risk-@risk.Key">@risk.Name</label>
@@ -43,7 +60,7 @@
                                 @if (risk.Active) {
                                     <div class="input__input-box"><p>@risk.InsuranceSum</p></div>
                                 } else {
-                                    <input class="calc__input" type="number" name="input-risk-@risk.Key" placeholder="от @risk.InsuranceSum" required>
+                                    <input class="calc__input" type="number" name="input-risk-@risk.Key" id="input-risk-@risk.Key" placeholder="от @risk.InsuranceSum" required data-key="@risk.Key" data-type="input-risk">
                                 }
                             </div>
                         }
@@ -58,12 +75,19 @@
                     @foreach (var item in Model.Items) {
                         @switch (item) {
                             case ItemComboBoxDto comboBox:
+                                bool isFirstIteration = true;
+                                @foreach (var value in comboBox.Values) {
+                                    @if (isFirstIteration) {
+                                        <script>state.key.@comboBox.Key = parseFloat(('@value.Value').replace(',', '.'));</script>
+                                    }
+                                    isFirstIteration = false;
+                                }
                                 <div class="details__elem" data-key="@comboBox.Key" data-type="select">
                                     <div class="select__label">
                                         <label for="select-meta-@comboBox.Key">@comboBox.Description</label>
                                     </div>
                                     <div class="input__select-box">
-                                        <select class="calc__select" name="select-meta-@comboBox.Key">
+                                        <select class="calc__select" name="select-meta-@comboBox.Key" id="select-meta-@comboBox.Key" data-key="@comboBox.Key" data-type="select-meta">
                                             @foreach (var value in comboBox.Values) {
                                                 <option value="@value.Value">@value.Name</option>
                                             }
@@ -72,10 +96,11 @@
                                 </div>
                                 break;
                             case ItemInputBoxDto inputBox:
+                                <script>state.key.@inputBox.Key = 0;</script>
                                 <div class="details__elem" data-key="@inputBox.Key" data-type="input">
                                     <div class="input__label"><label for="input-meta-@inputBox.Key">@inputBox.Description</label></div>
                                     <div class="input__input-box">
-                                        <input class="calc__input" type="text" name="input-meta-@inputBox.Key" required>
+                                        <input class="calc__input" type="text" name="input-meta-@inputBox.Key" id="input-meta-@inputBox.Key" required data-key="@inputBox.Key" data-type="input-meta">
                                     </div>
                                 </div>
                                 break;
@@ -86,7 +111,7 @@
         }
         <div class="insurance-premium">
             <p>Страховая премия:</p>
-            <div class="premium__value"><p class="for-js-premium__value">1800</p></div>
+            <div class="premium__value"><p class="for-js-premium__value"></p></div>
         </div>
         <div class="contract">
 
