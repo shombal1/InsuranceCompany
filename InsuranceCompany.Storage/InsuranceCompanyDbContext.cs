@@ -26,7 +26,7 @@ public class InsuranceCompanyDbContext(DbContextOptions<InsuranceCompanyDbContex
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(InsuranceCompanyDbContext))!);
 
         GenerateSeed(modelBuilder);
-        
+
         base.OnModelCreating(modelBuilder);
     }
 
@@ -147,6 +147,50 @@ public class InsuranceCompanyDbContext(DbContextOptions<InsuranceCompanyDbContex
         modelBuilder.Entity<FaceEntity>().HasData([
             faceEntity1,
             faceEntity2
+        ]);
+
+        var ikp1 = new IKPEntity()
+        {
+            Id = 1,
+            Name = "Главный"
+        };
+
+        var ikp2 = new IKPEntity()
+        {
+            Id = 2,
+            Name = "Вспомогательный"
+        };
+
+        modelBuilder.Entity<IKPEntity>().HasData([
+            ikp1,
+            ikp2
+        ]);
+
+        var agent1 = new AgentEntity()
+        {
+            Id = 1,
+            DateCreate = new DateTime(2024, 1, 20, 0, 0, 0, DateTimeKind.Utc),
+            DateBegin = new DateTime(2024, 1, 21, 0, 0, 0, DateTimeKind.Utc),
+            DateEnd = new DateTime(2024, 2, 20, 0, 0, 0, DateTimeKind.Utc),
+            FaceId = 1,
+            IKPId = 1,
+            StatusId = 1
+        };
+
+        var agent2 = new AgentEntity()
+        {
+            Id = 2,
+            DateCreate = new DateTime(2024, 2, 20, 0, 0, 0, DateTimeKind.Utc),
+            DateBegin = new DateTime(2024, 2, 21, 0, 0, 0, DateTimeKind.Utc),
+            DateEnd = new DateTime(2024, 3, 20, 0, 0, 0, DateTimeKind.Utc),
+            FaceId = 2,
+            IKPId = 2,
+            StatusId = 2
+        };
+
+        modelBuilder.Entity<AgentEntity>().HasData([
+            agent1,
+            agent2
         ]);
     }
 }

@@ -12,6 +12,7 @@ namespace InsuranceCompany.Web.Mapping
             CreateMap<CreateAgentDto, CreateAgentCommand>();
 
             CreateMap<Agent, CreateAgentDto>();
+            CreateMap<Agent, GetAgentDto>();
         }
     }
 }

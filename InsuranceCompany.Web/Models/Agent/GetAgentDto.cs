@@ -1,6 +1,4 @@
-﻿using InsuranceCompany.Domain.Enum;
-
-namespace InsuranceCompany.Web.Models.Agent;
+﻿namespace InsuranceCompany.Web.Models.Agent;
 
 public record GetAgentDto(
     int Id,
