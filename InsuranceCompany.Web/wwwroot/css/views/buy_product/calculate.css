@@ -13,6 +13,7 @@
     padding: 10px;
     border-bottom: 1px solid #ccc; /* Оформление */
     font-size: 25px; /* Увеличение размера шрифта */
+    align-items: start;
 }
 
 .risk__elem:last-child, .details__elem:last-child {
