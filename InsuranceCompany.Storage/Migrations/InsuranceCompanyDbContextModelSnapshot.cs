@@ -86,6 +86,28 @@ namespace InsuranceCompany.Storage.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("AGENTS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateBegin = new DateTimeOffset(new DateTime(2024, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateCreate = new DateTimeOffset(new DateTime(2024, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateEnd = new DateTimeOffset(new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            FaceId = 1,
+                            IKPId = 1,
+                            StatusId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateBegin = new DateTimeOffset(new DateTime(2024, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateCreate = new DateTimeOffset(new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            DateEnd = new DateTimeOffset(new DateTime(2024, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            FaceId = 2,
+                            IKPId = 2,
+                            StatusId = 2
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.ContractEntity", b =>
@@ -136,10 +158,8 @@ namespace InsuranceCompany.Storage.Migrations
                     b.Property<decimal?>("Rate")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -198,32 +218,54 @@ namespace InsuranceCompany.Storage.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<int?>("INN")
                         .HasColumnType("integer");
 
                     b.Property<string>("Lastname")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("SecondName")
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("FACES", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateBirth = new DateTime(1990, 5, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Александр",
+                            INN = 1234567890,
+                            Lastname = "Иванов",
+                            Name = "Александр Сергеевич Иванов",
+                            SecondName = "Сергеевич",
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateBirth = new DateTime(1985, 11, 20, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Мария",
+                            INN = 1876543210,
+                            Lastname = "Петрова",
+                            Name = "Мария Викторовна Петрова",
+                            SecondName = "Викторовна",
+                            Type = 0
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.IKPEntity", b =>
@@ -243,6 +285,18 @@ namespace InsuranceCompany.Storage.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IKPS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Главный"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Вспомогательный"
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.LOBEntity", b =>
@@ -256,12 +310,34 @@ namespace InsuranceCompany.Storage.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("LOBS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "КАСКО"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "ОСАГО"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Страхование путешественников"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Страхование от несчастных случаев"
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.ProductEntity", b =>
@@ -289,14 +365,25 @@ namespace InsuranceCompany.Storage.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LOBId");
 
                     b.ToTable("PRODUCTS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            Description = "Гибкая система выбора нужных вам рисков и на требуемый срок",
+                            Formula = "(P1+P2*M2S+P3*M3S)*M1I",
+                            LOBId = 3,
+                            Name = "отпуск вашй мечты"
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.ProductMetafieldEntity", b =>
@@ -323,6 +410,29 @@ namespace InsuranceCompany.Storage.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("PRODUCT_METAFIELDS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            JsonData = "{\"Type\":1,\"Index\":1,\"Key\":\"M1I\",\"Description\":\"\\u043A\\u043E\\u043B\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043E \\u0434\\u043D\\u0435\\u0439 \\u0432 \\u043F\\u0443\\u0442\\u0435\\u0448\\u0435\\u0441\\u0442\\u0432\\u0438\\u0435\"}",
+                            ProductId = 1,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            JsonData = "{\"Type\":1,\"Values\":[{\"Name\":\"\\u0432\\u044B\\u0441\\u043E\\u043A\\u0438\\u0439\",\"Value\":1.2},{\"Name\":\"\\u043D\\u0438\\u0437\\u043A\\u0438\\u0439\",\"Value\":0.9}],\"Index\":2,\"Key\":\"M2S\",\"Description\":\"\\u041F\\u0435\\u0440\\u0438\\u043E\\u0434 \\u043E\\u0442\\u0434\\u044B\\u0445\\u0430\"}",
+                            ProductId = 1,
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            JsonData = "{\"Type\":1,\"Values\":[{\"Name\":\"\\u0415\\u0432\\u0440\\u043E\\u043F\\u0430\",\"Value\":1},{\"Name\":\"\\u0422\\u0443\\u0440\\u0446\\u0438\\u0439\",\"Value\":1.2},{\"Name\":\"\\u041E\\u0410\\u042D\",\"Value\":1.1}],\"Index\":3,\"Key\":\"M3S\",\"Description\":\"\\u041D\\u0430\\u043F\\u0440\\u0432\\u043B\\u0435\\u043D\\u0438\\u0435 \\u043F\\u043E\\u043B\\u0435\\u0442\\u0430\"}",
+                            ProductId = 1,
+                            Type = 0
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.ProductRiskEntity", b =>
@@ -346,8 +456,8 @@ namespace InsuranceCompany.Storage.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<decimal?>("Premium")
                         .HasColumnType("numeric");
@@ -360,6 +470,38 @@ namespace InsuranceCompany.Storage.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("PRODUCT_RISKS", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            InsuranceSum = 500000m,
+                            Key = "P1",
+                            Name = "Несчастный случай",
+                            Premium = 5000m,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = false,
+                            InsuranceSum = 10000m,
+                            Key = "P2",
+                            Name = "Утрата багажа",
+                            Premium = 1000m,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = false,
+                            InsuranceSum = 20000m,
+                            Key = "P3",
+                            Name = "Задержка рейса",
+                            Premium = 2000m,
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.StatusAgentContractEntity", b =>
@@ -373,12 +515,34 @@ namespace InsuranceCompany.Storage.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
+                        .HasMaxLength(25)
+                        .HasColumnType("character varying(25)");
 
                     b.HasKey("Id");
 
                     b.ToTable("STATUSES_AGENT_CONTRACT", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Проект"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Действует"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Завершен"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Расторгнут"
+                        });
                 });
 
             modelBuilder.Entity("InsuranceCompany.Storage.Entities.AgentAgreementEntity", b =>

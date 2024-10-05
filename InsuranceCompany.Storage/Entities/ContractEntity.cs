@@ -1,4 +1,4 @@
-﻿using InsuranceCompany.Storage.Enums;
+﻿using InsuranceCompany.Domain.Enum;
 
 namespace InsuranceCompany.Storage.Entities;
 
@@ -13,7 +13,8 @@ public class ContractEntity
     public decimal? InsuranceSum { get; set; } 
     public decimal? Rate { get; set; }
     public decimal? Commission { get; set; }
-    public ContractStatusType Status { get; set; }
+    
+    public ContractStatus Status { get; set; }
     
     public int AgentId { get; set; } 
     public AgentEntity Agent { get; set; } = null!; 

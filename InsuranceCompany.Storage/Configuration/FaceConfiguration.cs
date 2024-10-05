@@ -17,15 +17,12 @@ public class FaceConfiguration : IEntityTypeConfiguration<FaceEntity>
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Type)
-            .HasConversion(
-                c => ExtensionFaceType.ToString(c),
-                c => ExtensionFaceType.ParseString(c))
-            .HasMaxLength(25);
+            .HasConversion<int>();
 
-        builder.Property(f => f.FirstName).HasMaxLength(15);
-        builder.Property(f => f.SecondName).HasMaxLength(15);
-        builder.Property(f => f.Lastname).HasMaxLength(15);
-        builder.Property(f => f.Name).HasMaxLength(15);
+        builder.Property(f => f.FirstName).HasMaxLength(20);
+        builder.Property(f => f.SecondName).HasMaxLength(20);
+        builder.Property(f => f.Lastname).HasMaxLength(20);
+        builder.Property(f => f.Name).HasMaxLength(50);
 
         builder.HasOne(f => f.AgentEntity)
             .WithOne(a => a.Face);

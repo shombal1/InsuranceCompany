@@ -1,15 +1,13 @@
-﻿using System.Text.Json;
-using AutoMapper;
-using InsuranceCompany.Domain.UseCases.CopyProductUseCase;
-using InsuranceCompany.Domain.UseCases.CreateProductUseCase;
+﻿using AutoMapper;
+using InsuranceCompany.Domain.Models;
 using InsuranceCompany.Domain.UseCases.EditProductUseCase;
 using InsuranceCompany.Domain.UseCases.GetActiveProductsUseCase;
-using InsuranceCompany.Domain.UseCases.GetProductsUseCase;
-using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
-using InsuranceCompany.Web.Models;
+using InsuranceCompany.Domain.UseCases.GetAgentsUseCase;
+using InsuranceCompany.Web.Models.Agent;
 using InsuranceCompany.Web.Models.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 
 namespace InsuranceCompany.Web.Controllers;
 
@@ -32,6 +30,14 @@ public class BuyProductController(IMediator mediator, IMapper mapper, ILogger<Ho
     [Route("edit/{productId}")]
     public async Task<IActionResult> Edit(int productId) // url: GET /buy-product/edit/{id}
     {
-        return View(mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId))));
+        var agents = await mediator.Send(new GetAgentsQuery());
+
+        var editProductDto = mapper.Map<EditProductDto>(await mediator.Send(new EditProductQuery(productId)));
+
+        editProductDto.AgentsDto = agents
+            .Select(mapper.Map<GetAgentDto>)
+            .ToList();
+
+        return View(editProductDto);
     }
 }

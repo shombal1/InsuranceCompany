@@ -1,5 +1,4 @@
 ﻿using InsuranceCompany.Storage.Entities;
-using InsuranceCompany.Storage.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,10 +16,7 @@ public class ContractConfiguration : IEntityTypeConfiguration<ContractEntity>
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Status)
-            .HasConversion(
-                c => ExtensionContractStatusType.ToString(c),
-                c => ExtensionContractStatusType.ParseString(c))
-            .HasMaxLength(25);
+            .HasConversion<int>();
 
         builder.HasOne(c => c.Agent)
             .WithMany(a => a.Contracts)

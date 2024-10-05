@@ -1,4 +1,4 @@
-﻿using InsuranceCompany.Storage.Enums;
+﻿using InsuranceCompany.Domain.Enum;
 
 namespace InsuranceCompany.Storage.Entities;
 

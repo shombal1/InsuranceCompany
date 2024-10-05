@@ -1,8 +1,10 @@
 ﻿using System.Text.Json;
+using AutoMapper;
 using InsuranceCompany.Domain.Models.Items;
 using InsuranceCompany.Domain.UseCases.SaveProductUseCase;
 using InsuranceCompany.Storage.Entities;
 using InsuranceCompany.Storage.Enums;
+using InsuranceCompany.Storage.Models;
 
 namespace InsuranceCompany.Storage.Storages;
 

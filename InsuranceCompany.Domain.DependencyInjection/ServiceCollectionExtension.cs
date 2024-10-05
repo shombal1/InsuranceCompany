@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using InsuranceCompany.Domain.Monitoring;
 using InsuranceCompany.Domain.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtension
     {
         services
             .AddMediatR(cfg => cfg
+                .AddOpenBehavior(typeof(MonitoringPipelineBehavior<,>))
                 .RegisterServicesFromAssemblyContaining<IUnitOfWork>());
         
         services.AddAutoMapper(config => 
