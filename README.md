@@ -1,11 +1,13 @@
+Проект разработан в рамках хакатона **"Код Согласия"** и занял **2-е место** в хакатоне.
+
 # README template
 
 После установки NET и Docker Desktop
 Из директории проекта все команды:
 1) подымет докер и в нем будет крутится postgres
-
+```shell
 docker compose -f ./docker/docker-compose.yml up -d
-
+```
 2) далее надо проверить наличие nuget командой
 
 dotnet nuget list source
@@ -22,9 +24,10 @@ dotnet tool install --global dotnet-ef
 
 4) вводим команды
 
+```shell
 dotnet ef database update -s InsuranceCompany.Web -p InsuranceCompany.Storage --context InsuranceCompanyDbContext
 dotnet ef database update -s InsuranceCompany.Web -p InsuranceCompany.Web --context ApplicationDbContext
-
+```
 5) если все успешно переходим в директорию проекта InsuranceCompany.Web
 
 cd InsuranceCompany.Web
